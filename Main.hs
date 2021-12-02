@@ -1,16 +1,27 @@
 module Main where
-import Data.List.Split
-import Data.Functor
 
-part_1_file = "day1/aoc_01_test_1.txt"
-part_2_file = "day1/aoc_01_test_2.txt"
--- map read $ words "1 2 3 4 5" :: [Int]
--- >>= \s -> print s
+part_1_test = "day1/aoc_01_test_1.txt"
+part_2_test = "day1/aoc_01_test_2.txt"
 
-inputStringList f = splitOn "\n"  <$> readFile part_1_file
+part_1_input = "day1/aoc_01_part_1.txt"
+part_2_input = "day1/aoc_01_part_2.txt"
 
---m +Data.Functor
--- length <$> readFile "file.txt"
+part1 :: [Int] -> Int
+part1 (x:xs) = sum $ map increase pairs
+    where   
+        pairs = zip (x:xs) xs
+        increase (a, b) = if(a < b) then 1 else 0
 
-main = do
-  putStrLn (inputStringList part_1_file)
+part2 :: [Int] -> Int
+part2 _ = 0
+
+
+getVals :: FilePath -> IO [Int]
+getVals path = do contents <- readFile path
+                  return (map (read::String->Int) (lines contents))
+
+
+main :: IO()
+main = do vals <- getVals part_1_input
+          print (part1 vals)
+          print (part2 vals)
