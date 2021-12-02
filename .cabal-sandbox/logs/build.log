@@ -8,3 +8,13 @@ dependencies: base-4.12.0.0 base-4.12.0.0
 install-outcome: InstallOk
 docs-outcome: NotTried
 tests-outcome: NotTried
+
+package: split-0.2.3.4
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
