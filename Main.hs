@@ -12,16 +12,19 @@ part1 (x:xs) = sum $ map increase pairs
         pairs = zip (x:xs) xs
         increase (a, b) = if(a < b) then 1 else 0
 
-part2 :: [Int] -> Int
-part2 _ = 0
-
-
+--part2 :: [Int] -> Int
+part2 xs = part1 $ avg xs
+    where
+        z3 ls = zip3 ls (tail ls) (tail (tail ls))
+        avg ls = map (\(a,b,c) -> a+b+c) (z3 ls)
 getVals :: FilePath -> IO [Int]
 getVals path = do contents <- readFile path
                   return (map (read::String->Int) (lines contents))
 
 
 main :: IO()
-main = do vals <- getVals part_1_input
-          print (part1 vals)
-          print (part2 vals)
+main = do 
+            vals1 <- getVals part_1_input
+            vals2 <- getVals part_2_input
+            print (part1 vals1)
+            print (part2 vals2)
