@@ -1,5 +1,12 @@
 module Main where
 
+-- Advent of Code 2021
+-- Day 1
+--  part 1 solution: 1553
+--  part 2 solution: 1597
+
+
+
 part_1_test = "day1/aoc_01_test_1.txt"
 part_2_test = "day1/aoc_01_test_2.txt"
 
