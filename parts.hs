@@ -10,6 +10,17 @@ main = do
 
 import System.IO()
 
+
+
+import Data.Char (digitToInt)
+import Data.List (foldl')
+
+bin2Dec :: String -> Int
+bin2Dec = foldl' (\acc x -> acc * 2 + digitToInt x) 0
+
+
+
+
 main :: IO()
 main = do vals <- getVals "input.txt"
           print (part1 vals)
