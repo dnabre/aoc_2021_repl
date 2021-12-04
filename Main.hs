@@ -10,7 +10,7 @@ import Data.Char
 
 -- Advent of Code 2021
 -- Day 3
---  part 1 solution: 
+--  part 1 solution: 2003336
 --  part 2 solution: 
 
 part_1_test = "day3/aoc_03_test_1.txt"
@@ -44,6 +44,17 @@ epsilon_rate xs = if (count1 <= count0) then 1 else 0
 bin2Dec :: [Int] -> Int
 bin2Dec = foldl' (\acc x -> acc * 2 + x) 0
 
+bitchar_to_bitlist :: [[Char]] -> [[Int]]
+bitchar_to_bitlist = map str2intlist
+    where
+        str2intlist::[Char] -> [Int]
+        str2intlist xs = map digitToInt xs
+
+
+filter_bit_list xs value pos = (fbl xs value pos []) 
+    where
+        fbl [] _ _ acc = acc
+        fbl (x:xs) value pos acc = if ((x !! pos) == value) then (fbl xs value pos (x:acc)) else (fbl xs value pos acc)
 
 part1 ::[[Char]] -> (Int,Int,Int)
 part1 vals = (g,e,g*e)
@@ -81,28 +92,18 @@ thrd3 (_,_,c) =c
 --main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 3:\n"
-            vals1 <- getStringVals part_1_test
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            print vals1
-            print (transpose vals1)
-            let g_list = map gamma_rate_char (transpose vals1)
-            let e_list = map epsilon_rate_char (transpose vals1)
-            printf "gamma: "
-            print g_list
-            print (bin2Dec g_list)
-            printf "epsilon: "
-            print e_list
-            print (bin2Dec e_list)
-            return vals1
-        --    let program1 =  (map parseInstruction ( map instructParts vals1)) ++ [Stop]
-        --    let final_state_1 = (part1 program1)
-        --    let answer_part_1 = (\(x,y) -> x*y) final_state_1
-        
-        -- printf "   Part 1 \n     final location (%d,%d) -> %d\n" (fst final_state_1) (snd final_state_1) answer_part_1
+            
+          --  let (g,e,answer) = part1 vals1 
 
-
+          --  printf "    Part 1\n        gamma: %d,    epsilon: %d, solution= %d \n" g e answer
+            print "\n"
+            let tvals2 = transpose vals2
+            print vals2
+          
           --  let program2 =  (map parseInstruction ( map instructParts vals2)) ++ [Stop]
           --  let final_state_2 = (part2 program2)
           --  let answer_part_2 = (\(x,y,_) -> x*y) final_state_2
