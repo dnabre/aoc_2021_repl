@@ -5,53 +5,61 @@ import System.Environment
 import System.Exit
 import Text.Printf
 import Data.List.Split
+import Data.List
+import Data.Char
 
 -- Advent of Code 2021
--- Day 2
---  part 1 solution: 1990000
---  part 2 solution: 1975421260
+-- Day 3
+--  part 1 solution: 
+--  part 2 solution: 
 
-part_1_test = "day2/aoc_02_test_1.txt"
-part_2_test = "day2/aoc_02_test_2.txt"
+part_1_test = "day3/aoc_03_test_1.txt"
+part_2_test = "day3/aoc_03_test_2.txt"
 
-part_1_input = "day2/aoc_02_part_1.txt"
-part_2_input = "day2/aoc_02_part_2.txt"
+part_1_input = "day3/aoc_03_part_1.txt"
+part_2_input = "day3/aoc_03_part_2.txt"
 
-data SubInstruction =
-    Forward Int |
-    Down Int|
-    Up Int |
-    Stop   deriving (Show) 
+--tally::Char -> [Char] -> Int -> Int
+tally _ [] acc = acc
+tally value (x:xs) acc = if (value == x)  then (tally value xs (acc+1)) else (tally value xs acc)
 
-instructionStringFoward = "forward"
-instructionStringDown = "down"
-instructionStringUp = "up"
+gamma_rate_char:: [Char] -> Int
+gamma_rate_char xs = gamma_rate (map digitToInt xs) 
+
+gamma_rate:: [Int] -> Int
+gamma_rate xs = if (count1 >= count0) then 1 else 0
+    where
+        count1 = tally 1 xs 0
+        count0 = tally 0 xs  0 
+
+epsilon_rate_char :: [Char] -> Int
+epsilon_rate_char xs = epsilon_rate (map digitToInt xs)
+
+epsilon_rate:: [Int] -> Int
+epsilon_rate xs = if (count1 <= count0) then 1 else 0
+    where
+        count1 = tally 1 xs 0
+        count0 = tally 0 xs  0 
+
+bin2Dec :: [Int] -> Int
+bin2Dec = foldl' (\acc x -> acc * 2 + x) 0
 
 
-parseInstruction :: ([Char],Int) -> SubInstruction
-parseInstruction (ins, num) = if    | ins == instructionStringFoward -> (Forward num)
-                                    | ins == instructionStringDown -> (Down num)
-                                    | ins == instructionStringUp -> (Up num)
+part1 ::[[Char]] -> (Int,Int,Int)
+part1 vals = (g,e,g*e)
+    where
+        tv = transpose vals
+        g_list = map gamma_rate_char tv
+        e_list = map epsilon_rate_char tv
+        g = bin2Dec g_list
+        e = bin2Dec e_list
 
 
-part1 :: [SubInstruction] -> (Int,Int)
-part1 (x:xs) = executeIns x (0,0) xs
-    
-executeIns :: SubInstruction -> (Int,Int) -> [SubInstruction] -> (Int, Int)
-executeIns (Forward n) (x,y) (z:zs) = executeIns z (x+n,y) zs
-executeIns (Down n) (x,y) (z:zs) = executeIns z (x,y+n) zs
-executeIns (Up n) (x,y) (z:zs) = executeIns z (x,y-n) zs
-executeIns (Stop) end _ = end         
 
 
-part2 :: [SubInstruction] -> (Int,Int,Int)
-part2 (x:xs) = executeIns2 x (0,0,0) xs
+part2 x = undefined
 
-executeIns2 :: SubInstruction -> (Int,Int,Int) -> [SubInstruction] -> (Int, Int,Int)
-executeIns2 (Forward n) (x,y,a) (z:zs) = executeIns2 z (x+n,y+(n*a),a) zs
-executeIns2 (Down n) (x,y,a) (z:zs) = executeIns2 z (x,y,a+n) zs
-executeIns2 (Up n) (x,y,a) (z:zs) = executeIns2 z (x,y,a-n) zs
-executeIns2 (Stop) end _ = end 
+
 
 
 getIntVals :: FilePath -> IO [Int]
@@ -64,28 +72,39 @@ getStringVals path = do
                         contents <- readFile path
                         return  (lines contents)
 
-instructParts :: [Char] -> ([Char], Int)
-instructParts s = instruct_format (splitOn " " s)
-    where
-        instruct_format (x:y:_) = (x,(read::String->Int) y)
+
 
 fst3 (a,_,_) = a
 snd3 (_,b,_) = b
 thrd3 (_,_,c) =c
 
-main :: IO()
+--main :: IO()
 main = do 
-            printf "Advent of Code 2021, Day 2:\n"
-            vals1 <- getStringVals part_1_input
-            vals2 <- getStringVals part_2_input
-            let program1 =  (map parseInstruction ( map instructParts vals1)) ++ [Stop]
-            let final_state_1 = (part1 program1)
-            let answer_part_1 = (\(x,y) -> x*y) final_state_1
-            printf "   Part 1 \n     final location (%d,%d) -> %d\n" (fst final_state_1) (snd final_state_1) answer_part_1
+            printf "Advent of Code 2021, Day 3:\n"
+            vals1 <- getStringVals part_1_test
+            printf "    read %d lines of input\n" (length vals1)
+            vals2 <- getStringVals part_2_test
+            printf "    read %d lines of input\n" (length vals2)
+            print vals1
+            print (transpose vals1)
+            let g_list = map gamma_rate_char (transpose vals1)
+            let e_list = map epsilon_rate_char (transpose vals1)
+            printf "gamma: "
+            print g_list
+            print (bin2Dec g_list)
+            printf "epsilon: "
+            print e_list
+            print (bin2Dec e_list)
+            return vals1
+        --    let program1 =  (map parseInstruction ( map instructParts vals1)) ++ [Stop]
+        --    let final_state_1 = (part1 program1)
+        --    let answer_part_1 = (\(x,y) -> x*y) final_state_1
+        
+        -- printf "   Part 1 \n     final location (%d,%d) -> %d\n" (fst final_state_1) (snd final_state_1) answer_part_1
 
 
-            let program2 =  (map parseInstruction ( map instructParts vals2)) ++ [Stop]
-            let final_state_2 = (part2 program2)
-            let answer_part_2 = (\(x,y,_) -> x*y) final_state_2
+          --  let program2 =  (map parseInstruction ( map instructParts vals2)) ++ [Stop]
+          --  let final_state_2 = (part2 program2)
+          --  let answer_part_2 = (\(x,y,_) -> x*y) final_state_2
 
-            printf "   Part 2 \n     final location (%d,%d,%d) -> %d\n" (fst3 final_state_2) (snd3 final_state_2) ( thrd3 final_state_2) answer_part_2
+          --  printf "   Part 2 \n     final location (%d,%d,%d) -> %d\n" (fst3 final_state_2) (snd3 final_state_2) ( thrd3 final_state_2) answer_part_2
