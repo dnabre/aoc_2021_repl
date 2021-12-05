@@ -9,79 +9,30 @@ import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 
 -- Advent of Code 2021
--- Day 4
---  part 1 solution: 64084
---  part 2 solution: 12833
+-- Day 5
+--  part 1 solution: 
+--  part 2 solution: 
 
-part_1_test = "day4/aoc_04_test_1.txt"
-part_2_test = "day4/aoc_04_test_2.txt"
+part_1_test = "day5/aoc_05_test_1.txt"
+part_2_test = "day5/aoc_05_test_2.txt"
 
-part_1_input = "day4/aoc_04_part_1.txt"
-part_2_input = "day4/aoc_04_part_2.txt"
+part_1_input = "day5/aoc_05_part_1.txt"
+part_2_input = "day5/aoc_05_part_2.txt"
 
-set_sum::IntSet.IntSet->Int
-set_sum iset = sum (IntSet.toList iset)
+x_max = 1000
+y_max = 1000
 
-part1::[Char]->[[Char]]->Int
-part1  pulled_numbers boards = final_score
-    where
-        int_pulls = map string2int (splitOn "," pulled_numbers)
-        boards3 = split_boards ([]:(map rowString2list boards))
-        board_sets = map mkBoard boards3
-        (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
-        bb = getWinningBoard final_pull_set board_sets
-        final_score = scoreBoard bb final_pull_set last_pull
+data Line=Line (Int,Int) (Int, Int)|LineError deriving Show
 
-part2::[Char]->[[Char]]->Int
-part2 pulled_numbers boards = target_score
-    where
-        int_pulls = map string2int (splitOn "," pulled_numbers)
-        boards3 = split_boards ([]:(map rowString2list boards))
-        board_sets = map mkBoard boards3
-        last_pull =  (find_last_winner int_pulls board_sets)           
-        final_pull_set = IntSet.fromList (elems_until last_pull int_pulls [])
-        except_last = getAllWinningBoards (IntSet.delete last_pull final_pull_set) board_sets
-        with_last = getAllWinningBoards final_pull_set board_sets
-        target_board =head $ Set.toList (Set.difference (Set.fromList with_last) (Set.fromList except_last))
-        target_score = scoreBoard target_board final_pull_set last_pull
+-- look at [1..x_max] * [1.._y_max] 
+-- for each point, count # lines it hits. if count>=2 -> 1 else 0. total
+ 
+part1 x = undefined
 
 
-split_boards:: [[Int]] -> [[[Int]]]
-split_boards xs = split_boards_h xs [] 
-
-split_boards_h:: [[Int]] -> [[[Int]]] -> [[[Int]]]
-split_boards_h [] acc = acc
-split_boards_h (x:xs) acc = if (x == []) then  split_boards_h (drop 5 xs) ((take 5 xs):acc) else []
-  
-
-mkBoard:: [[Int]]->[IntSet.IntSet]
-mkBoard xs = (map IntSet.fromList xs) ++ (map IntSet.fromList (transpose xs))
-
-isWin::IntSet.IntSet -> [IntSet.IntSet] -> IntSet.IntSet
-isWin pulls [] = IntSet.empty
-isWin pulls (b:bs) = if (IntSet.isSubsetOf b pulls) then b else isWin pulls bs
+part2 x = undefined
 
 
-scoreBoard::[IntSet.IntSet]->IntSet.IntSet->Int->Int
-scoreBoard board pulls last_pull = (set_sum unmarked) * last_pull  
-    where
-        unmarked = IntSet.difference  (IntSet.unions board) pulls
-
-getWinningBoard::IntSet.IntSet->[[IntSet.IntSet]]->[IntSet.IntSet]
-getWinningBoard plist boards = head [b | b<-boards, ((isWin plist b) /= IntSet.empty)]
-
-
-getAllWinningBoards::IntSet.IntSet->[[IntSet.IntSet]]->[[IntSet.IntSet]]
-getAllWinningBoards plist boards = [b | b<-boards, ((isWin plist b) /= IntSet.empty)]
-
-
-final_pull_list::[Int]->[[IntSet.IntSet]]->IntSet.IntSet->(IntSet.IntSet,Int)
-final_pull_list (p:ps) board_list running_pulls = if ((sum line_sizes) > 0) then (new_pull_set,p) else  down
-            where
-                new_pull_set = IntSet.insert p running_pulls
-                winning_lines = map (isWin new_pull_set) board_list
-                line_sizes = map IntSet.size winning_lines
-                down = final_pull_list ps board_list new_pull_set      
 
 getIntVals :: FilePath -> IO [Int]
 getIntVals path = do 
@@ -101,30 +52,49 @@ string2int = r
 rowString2list :: [Char] -> [Int]
 rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
     
-elems_until::Int->[Int]->[Int]->[Int]    
-elems_until _ [] acc = (reverse acc)
-elems_until e (p:ps) acc = if (e == p) then (reverse (p:acc)) else elems_until e ps (p:acc)
+parseLineInt ps = map (\x->map string2int x) ps
 
-find_last_winner::[Int]->[[IntSet.IntSet]]->Int
-find_last_winner pull_list board_sets = run (reverse pull_list) board_sets
-    where
-        get_win_list pull_l boards = map (isWin (IntSet.fromList pull_l)) boards
-        run (p:ps) boards = if (elem IntSet.empty (get_win_list ps boards)) then p else run ps boards
+
+parsePairs (p1:p2:rs) = parseLine (p1,p2)
+parsePairs _ = LineError   
+
+parseLine ( (x1:y1:r1), (x2:y2:r2) ) = Line (x1,y1) (x2, y2)
+parseLine _ = LineError
+
+
+horzLines (Line (x1, y1) (x2, y2)) = (x1 == x2)
+horzLines (LineError) = False
+
+vertLines (Line (x1, y1) (x2, y2)) = (y1 == y2)
+vertLines (LineError) = False
 
 main :: IO()
 main = do 
-            printf "Advent of Code 2021, Day 4:\n"
-            vals1 <- getStringVals part_1_input
+            printf "Advent of Code 2021, Day 5:\n"
+            vals1 <- getStringVals part_1_test
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_input
+            vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            let pulled_numbers1 = head vals1
-            let boards1  = drop 2 vals1
-            let score = part1 pulled_numbers1 boards1
-            printf "\n    Part 1\n      Solution: %d \n" score
             
-            let pulled_numbers = head vals2
-            let boards = drop 2 vals2
-            let target_score = part2 pulled_numbers boards
-            
-            printf "\n    Part 2\n      Solution: %d \n" target_score
+            print vals1
+            let lls = map (splitOn "->") vals1
+            let llp = map (\x->map (splitOn ",") x) lls
+            let int_lines = map parseLineInt llp
+           
+            let line_list = map parsePairs int_lines 
+            print line_list
+            print (length line_list)
+            let h_lines = (filter horzLines line_list)
+            let v_lines = (filter vertLines line_list)
+            printf "\n hort: %d vert: %d \n" (length h_lines) (length v_lines)
+          --  printf "\n    Part 2\n      Solution: %d \n" 0
+
+
+
+
+
+
+
+
+
+            printf "\n\n   done  \n\n"

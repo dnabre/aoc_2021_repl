@@ -7,6 +7,9 @@ main = do
     putStrLn solpart1
     putStrLn solpart2
 
+set_sum::IntSet.IntSet->Int
+set_sum iset = sum (IntSet.toList iset)
+
 
 import System.IO()
 
