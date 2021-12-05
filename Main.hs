@@ -7,69 +7,66 @@ import Text.Printf
 import Data.List.Split
 import Data.List
 import Data.Char
+import qualified Data.IntSet as IntSet
 
 -- Advent of Code 2021
--- Day 3
---  part 1 solution: 2003336
+-- Day 4
+--  part 1 solution: 
 --  part 2 solution: 
 
-part_1_test = "day3/aoc_03_test_1.txt"
-part_2_test = "day3/aoc_03_test_2.txt"
+part_1_test = "day4/aoc_04_test_1.txt"
+part_2_test = "day4/aoc_04_test_2.txt"
 
-part_1_input = "day3/aoc_03_part_1.txt"
-part_2_input = "day3/aoc_03_part_2.txt"
+part_1_input = "day4/aoc_04_part_1.txt"
+part_2_input = "day4/aoc_04_part_2.txt"
 
---tally::Char -> [Char] -> Int -> Int
-tally _ [] acc = acc
-tally value (x:xs) acc = if (value == x)  then (tally value xs (acc+1)) else (tally value xs acc)
+set_sum::IntSet.IntSet->Int
+set_sum iset = sum (IntSet.toList iset)
 
-gamma_rate_char:: [Char] -> Int
-gamma_rate_char xs = gamma_rate (map digitToInt xs) 
+part1 vals = undefined
 
-gamma_rate:: [Int] -> Int
-gamma_rate xs = if (count1 >= count0) then 1 else 0
-    where
-        count1 = tally 1 xs 0
-        count0 = tally 0 xs  0 
-
-epsilon_rate_char :: [Char] -> Int
-epsilon_rate_char xs = epsilon_rate (map digitToInt xs)
-
-epsilon_rate:: [Int] -> Int
-epsilon_rate xs = if (count1 <= count0) then 1 else 0
-    where
-        count1 = tally 1 xs 0
-        count0 = tally 0 xs  0 
-
-bin2Dec :: [Int] -> Int
-bin2Dec = foldl' (\acc x -> acc * 2 + x) 0
-
-bitchar_to_bitlist :: [[Char]] -> [[Int]]
-bitchar_to_bitlist = map str2intlist
-    where
-        str2intlist::[Char] -> [Int]
-        str2intlist xs = map digitToInt xs
-
-
-filter_bit_list xs value pos = (fbl xs value pos []) 
-    where
-        fbl [] _ _ acc = acc
-        fbl (x:xs) value pos acc = if ((x !! pos) == value) then (fbl xs value pos (x:acc)) else (fbl xs value pos acc)
-
-part1 ::[[Char]] -> (Int,Int,Int)
-part1 vals = (g,e,g*e)
-    where
-        tv = transpose vals
-        g_list = map gamma_rate_char tv
-        e_list = map epsilon_rate_char tv
-        g = bin2Dec g_list
-        e = bin2Dec e_list
 
 
 
 
 part2 x = undefined
 
+split_boards:: [[Int]] -> [[[Int]]]
+split_boards xs = split_boards_h xs [] 
+
+split_boards_h:: [[Int]] -> [[[Int]]] -> [[[Int]]]
+split_boards_h [] acc = acc
+split_boards_h (x:xs) acc = if (x == []) then  split_boards_h (drop 5 xs) ((mkBoard xs):acc) else []
+    where
+        mkBoard xs = (take 5 xs)
+
+mkBoard:: [[Int]]->[IntSet.IntSet]
+mkBoard xs = (map IntSet.fromList xs) ++ (map IntSet.fromList (transpose xs))
+
+isWin::IntSet.IntSet -> [IntSet.IntSet] -> IntSet.IntSet
+isWin pulls [] = IntSet.empty
+isWin pulls (b:bs) = if (IntSet.isSubsetOf b pulls) then b else isWin pulls bs
+
+
+scoreBoard::[IntSet.IntSet]->IntSet.IntSet->Int->Int
+scoreBoard board pulls last_pull = (set_sum unmarked) * last_pull  
+    where
+        unmarked = IntSet.difference  (IntSet.unions board) pulls
+
+getWinningBoard::IntSet.IntSet->[[IntSet.IntSet]]->[IntSet.IntSet]
+getWinningBoard plist boards = head [b | b<-boards, ((isWin plist b) /= IntSet.empty)]
+    
+
+
+final_pull_list::[Int]->[[IntSet.IntSet]]->IntSet.IntSet->(IntSet.IntSet,Int)
+final_pull_list (p:ps) board_list running_pulls = if ((sum line_sizes) > 0) then (new_pull_set,p) else  down
+            where
+                new_pull_set = IntSet.insert p running_pulls
+                winning_lines = map (isWin new_pull_set) board_list
+                line_sizes = map IntSet.size winning_lines
+                down = final_pull_list ps board_list new_pull_set      
+
+        
 
 
 
@@ -82,8 +79,14 @@ getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
                         contents <- readFile path
                         return  (lines contents)
+string2int = r
+    where 
+        r:: [Char] -> Int
+        r = read
 
-
+rowString2list :: [Char] -> [Int]
+rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
+    
 
 fst3 (a,_,_) = a
 snd3 (_,b,_) = b
@@ -92,20 +95,46 @@ thrd3 (_,_,c) =c
 --main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 3:\n"
-            vals1 <- getStringVals part_1_input
+            vals1 <- getStringVals part_1_test
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
+            let pulled_numbers = head vals1
+            let boards  = drop 2 vals1
             
-          --  let (g,e,answer) = part1 vals1 
+            printf "    Part 1\n"
+            let pn_parts = splitOn "," pulled_numbers
+            let int_pulls = map string2int pn_parts
+            printf "        Numbers pulled:: %s\n" (show int_pulls)
+            
+            let boards2 = []:(map rowString2list boards)
+            let boards3 = split_boards boards2 
+            
+            printf "\n"
+            let board_sets = map mkBoard boards3
+            printf "board_sets length = %d \n" (length board_sets)
+            --print board_sets
+         --   let (winner_board,winner_line,marked,unmarked) = do_game int_pulls board_list
+            let w_pulls = IntSet.fromList(take 12 int_pulls)
+            print (map head board_sets)
+            let w_board = board_sets!!0
+            print (IntSet.toList w_pulls)
+            printf "\n winning board: \n %s \n" (show w_board)
+            let score = scoreBoard w_board w_pulls (last (IntSet.toList w_pulls))
+            print score
+         --   print (map (\x-> scoreBoard x w_pulls (last (IntSet.toList w_pulls))) board_sets)
+            printf "\n\n"
+            let (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
+            printf "Final pull list: %s\n" (show  (IntSet.toList final_pull_set))
 
-          --  printf "    Part 1\n        gamma: %d,    epsilon: %d, solution= %d \n" g e answer
-            print "\n"
-            let tvals2 = transpose vals2
-            print vals2
-          
-          --  let program2 =  (map parseInstruction ( map instructParts vals2)) ++ [Stop]
-          --  let final_state_2 = (part2 program2)
-          --  let answer_part_2 = (\(x,y,_) -> x*y) final_state_2
+            print last_pull
+            let winning_score =  map (isWin final_pull_set) board_sets
+            print winning_score
+            let bb = getWinningBoard final_pull_set board_sets
+            printf "\n"
+            print bb
+            let final_score = scoreBoard bb final_pull_set last_pull
+            print final_score
 
-          --  printf "   Part 2 \n     final location (%d,%d,%d) -> %d\n" (fst3 final_state_2) (snd3 final_state_2) ( thrd3 final_state_2) answer_part_2
+--final_pull_list::[Int]->[[IntSet.IntSet]]->IntSet.IntSet->(IntSet.IntSet,Int)
+--final_pull_list (p:ps) board_list running_pulls = if ((sum line_sizes) > 0) then (new_pull_set,p) else  down
