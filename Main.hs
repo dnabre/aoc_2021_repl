@@ -11,7 +11,7 @@ import qualified Data.IntSet as IntSet
 
 -- Advent of Code 2021
 -- Day 4
---  part 1 solution: 
+--  part 1 solution: 64084
 --  part 2 solution: 
 
 part_1_test = "day4/aoc_04_test_1.txt"
@@ -95,7 +95,7 @@ thrd3 (_,_,c) =c
 --main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 3:\n"
-            vals1 <- getStringVals part_1_test
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
@@ -103,29 +103,22 @@ main = do
             let boards  = drop 2 vals1
             
             printf "    Part 1\n"
-            let pn_parts = splitOn "," pulled_numbers
-            let int_pulls = map string2int pn_parts
-            printf "        Numbers pulled:: %s\n" (show int_pulls)
             
-            let boards2 = []:(map rowString2list boards)
-            let boards3 = split_boards boards2 
+            let int_pulls = map string2int (splitOn "," pulled_numbers)
+           
             
-            printf "\n"
+            
+            let boards3 = split_boards ([]:(map rowString2list boards))
             let board_sets = map mkBoard boards3
-            printf "board_sets length = %d \n" (length board_sets)
-            --print board_sets
-         --   let (winner_board,winner_line,marked,unmarked) = do_game int_pulls board_list
-            let w_pulls = IntSet.fromList(take 12 int_pulls)
-            print (map head board_sets)
-            let w_board = board_sets!!0
-            print (IntSet.toList w_pulls)
-            printf "\n winning board: \n %s \n" (show w_board)
-            let score = scoreBoard w_board w_pulls (last (IntSet.toList w_pulls))
-            print score
-         --   print (map (\x-> scoreBoard x w_pulls (last (IntSet.toList w_pulls))) board_sets)
-            printf "\n\n"
+           
+            
+           
+         
+           
+         
+        
             let (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
-            printf "Final pull list: %s\n" (show  (IntSet.toList final_pull_set))
+          
 
             print last_pull
             let winning_score =  map (isWin final_pull_set) board_sets
@@ -136,5 +129,3 @@ main = do
             let final_score = scoreBoard bb final_pull_set last_pull
             print final_score
 
---final_pull_list::[Int]->[[IntSet.IntSet]]->IntSet.IntSet->(IntSet.IntSet,Int)
---final_pull_list (p:ps) board_list running_pulls = if ((sum line_sizes) > 0) then (new_pull_set,p) else  down
