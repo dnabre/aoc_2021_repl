@@ -23,8 +23,17 @@ part_2_input = "day4/aoc_04_part_2.txt"
 set_sum::IntSet.IntSet->Int
 set_sum iset = sum (IntSet.toList iset)
 
-part1 vals = undefined
+part1::[Char]->[[Char]]->Int
+part1  pulled_numbers boards = final_score
+    where
+        int_pulls = map string2int (splitOn "," pulled_numbers)
+        boards3 = split_boards ([]:(map rowString2list boards))
+        board_sets = map mkBoard boards3
+ 
+        (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
 
+        bb = getWinningBoard final_pull_set board_sets
+        final_score = scoreBoard bb final_pull_set last_pull
 
 
 
@@ -79,6 +88,7 @@ getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
                         contents <- readFile path
                         return  (lines contents)
+string2int::[Char]->Int               
 string2int = r
     where 
         r:: [Char] -> Int
@@ -88,9 +98,7 @@ rowString2list :: [Char] -> [Int]
 rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
     
 
-fst3 (a,_,_) = a
-snd3 (_,b,_) = b
-thrd3 (_,_,c) =c
+
 
 --main :: IO()
 main = do 
@@ -101,31 +109,9 @@ main = do
             printf "    read %d lines of input\n" (length vals2)
             let pulled_numbers = head vals1
             let boards  = drop 2 vals1
-            
-            printf "    Part 1\n"
-            
-            let int_pulls = map string2int (splitOn "," pulled_numbers)
-           
+            let score = part1 pulled_numbers boards
+            printf "\n    Part 1\n      Solution: %d \n" score
             
             
-            let boards3 = split_boards ([]:(map rowString2list boards))
-            let board_sets = map mkBoard boards3
-           
             
-           
-         
-           
-         
-        
-            let (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
-          
-
-            print last_pull
-            let winning_score =  map (isWin final_pull_set) board_sets
-            print winning_score
-            let bb = getWinningBoard final_pull_set board_sets
-            printf "\n"
-            print bb
-            let final_score = scoreBoard bb final_pull_set last_pull
-            print final_score
 

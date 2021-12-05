@@ -18,7 +18,9 @@ import Data.List (foldl')
 bin2Dec :: String -> Int
 bin2Dec = foldl' (\acc x -> acc * 2 + digitToInt x) 0
 
-
+fst3 (a,_,_) = a
+snd3 (_,b,_) = b
+thrd3 (_,_,c) =c
 
 
 main :: IO()
