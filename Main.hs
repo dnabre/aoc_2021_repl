@@ -26,7 +26,7 @@ data Line=Line (Int,Int) (Int, Int)|LineError deriving Show
 
 -- look at [1..x_max] * [1.._y_max] 
 -- for each point, count # lines it hits. if count>=2 -> 1 else 0. total
- 
+-- alternately, only enumerate points on lines. check if already enumerated, if so tally hit 
 part1 x = undefined
 
 
