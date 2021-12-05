@@ -1,5 +1,3 @@
-{-# LANGUAGE MultiWayIf #-}
-
 module Main where
 import System.Environment
 import System.Exit
@@ -30,7 +28,7 @@ part1  pulled_numbers boards = final_score
         int_pulls = map string2int (splitOn "," pulled_numbers)
         boards3 = split_boards ([]:(map rowString2list boards))
         board_sets = map mkBoard boards3
-         (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
+        (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
         bb = getWinningBoard final_pull_set board_sets
         final_score = scoreBoard bb final_pull_set last_pull
 
@@ -40,7 +38,6 @@ part2 pulled_numbers boards = target_score
         int_pulls = map string2int (splitOn "," pulled_numbers)
         boards3 = split_boards ([]:(map rowString2list boards))
         board_sets = map mkBoard boards3
-   --     (final_pull_set, last_pull) =  final_pull_list int_pulls board_sets IntSet.empty
         last_pull =  (find_last_winner int_pulls board_sets)           
         final_pull_set = IntSet.fromList (elems_until last_pull int_pulls [])
         except_last = getAllWinningBoards (IntSet.delete last_pull final_pull_set) board_sets
@@ -74,7 +71,7 @@ getWinningBoard::IntSet.IntSet->[[IntSet.IntSet]]->[IntSet.IntSet]
 getWinningBoard plist boards = head [b | b<-boards, ((isWin plist b) /= IntSet.empty)]
 
 
-getAllWinningBoards:: [[IntSet.IntSet]]->[[IntSet.IntSet]]    
+getAllWinningBoards::IntSet.IntSet->[[IntSet.IntSet]]->[[IntSet.IntSet]]
 getAllWinningBoards plist boards = [b | b<-boards, ((isWin plist b) /= IntSet.empty)]
 
 
