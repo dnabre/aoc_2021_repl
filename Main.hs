@@ -9,24 +9,18 @@ import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 
 -- Advent of Code 2021
--- Day 5
---  part 1 solution: 
+-- Day 6
+--  part 1 solution: 374927
 --  part 2 solution: 
 
-part_1_test = "day5/aoc_05_test_1.txt"
-part_2_test = "day5/aoc_05_test_2.txt"
+part_1_test = "day6/aoc_06_test_1.txt"
+part_2_test = "day6/aoc_06_test_2.txt"
 
-part_1_input = "day5/aoc_05_part_1.txt"
-part_2_input = "day5/aoc_05_part_2.txt"
+part_1_input = "day6/aoc_06_part_1.txt"
+part_2_input = "day6/aoc_06_part_2.txt"
 
-x_max = 1000
-y_max = 1000
 
-data Line=Line (Int,Int) (Int, Int)|LineError deriving Show
 
--- look at [1..x_max] * [1.._y_max] 
--- for each point, count # lines it hits. if count>=2 -> 1 else 0. total
--- alternately, only enumerate points on lines. check if already enumerated, if so tally hit 
 part1 x = undefined
 
 
@@ -52,42 +46,49 @@ string2int = r
 rowString2list :: [Char] -> [Int]
 rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
     
-parseLineInt ps = map (\x->map string2int x) ps
+nextDay fs = concat $ map nextFish fs
+    where
+        nextFish 0 = [6,8]
+        nextFish 1 = [0]
+        nextFish 2 = [1]
+        nextFish 3 = [2]
+        nextFish 4 = [3]
+        nextFish 5 = [4]
+        nextFish 6 = [5]
+        nextFish 7 = [6]
+        nextFish 8 = [7]
+        nextFish _ = []
+        
+
+--next state 19  = []
+--next state n  = do
+--                    printf "After %d days: %s \n" n state
 
 
-parsePairs (p1:p2:rs) = parseLine (p1,p2)
-parsePairs _ = LineError   
-
-parseLine ( (x1:y1:r1), (x2:y2:r2) ) = Line (x1,y1) (x2, y2)
-parseLine _ = LineError
+do_n_days state 0 = state
+do_n_days state n = do_n_days (nextDay state) (n-1)
 
 
-horzLines (Line (x1, y1) (x2, y2)) = (x1 == x2)
-horzLines (LineError) = False
 
-vertLines (Line (x1, y1) (x2, y2)) = (y1 == y2)
-vertLines (LineError) = False
 
 main :: IO()
 main = do 
-            printf "Advent of Code 2021, Day 5:\n"
-            vals1 <- getStringVals part_1_test
+            printf "Advent of Code 2021, Day 6:\n"
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
+            let nvals = (map string2int (splitOn "," (head vals1)))
+            printf "\n   Initial state: %s\n" (show nvals)
+            let n = 256
+            let e_vals = do_n_days nvals n
+            printf "\n    After  days: " 
+            print n
+        --    print e_vals
+            printf "number: "
+            print $ length e_vals
             
-            print vals1
-            let lls = map (splitOn "->") vals1
-            let llp = map (\x->map (splitOn ",") x) lls
-            let int_lines = map parseLineInt llp
-           
-            let line_list = map parsePairs int_lines 
-            print line_list
-            print (length line_list)
-            let h_lines = (filter horzLines line_list)
-            let v_lines = (filter vertLines line_list)
-            printf "\n hort: %d vert: %d \n" (length h_lines) (length v_lines)
-          --  printf "\n    Part 2\n      Solution: %d \n" 0
+
 
 
 
