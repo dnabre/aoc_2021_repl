@@ -20,18 +20,8 @@ part_1_input = "day6/aoc_06_part_1.txt"
 part_2_input = "day6/aoc_06_part_2.txt"
 
 
-
-part1 x = undefined
-
-
-part2 x = undefined
-
-
-
-getIntVals :: FilePath -> IO [Int]
-getIntVals path = do 
-                    contents <- readFile path
-                    return (map (read::String->Int) (lines contents))
+part1 state = sum $ tup_to_list (do_count_n_days state 80)
+part2 state = sum $ tup_to_list (do_count_n_days state 256)
 
 getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
@@ -45,25 +35,7 @@ string2int = r
 
 rowString2list :: [Char] -> [Int]
 rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
-    
-nextDay fs = concat $ map nextFish fs
-    where
-        nextFish 0 = [6,8]
-        nextFish 1 = [0]
-        nextFish 2 = [1]
-        nextFish 3 = [2]
-        nextFish 4 = [3]
-        nextFish 5 = [4]
-        nextFish 6 = [5]
-        nextFish 7 = [6]
-        nextFish 8 = [7]
-        nextFish _ = []
-        
 
-
-
-do_n_days state 0 = state
-do_n_days state n = do_n_days (nextDay state) (n-1)
 
 do_count_step (f0, f1, f2, f3, f4, f5, f6, f7, f8) =  (f1,f2,f3,f4,f5,f6,f7+f0,f8,f0)
 
@@ -93,16 +65,12 @@ main = do
             vals2 <- getStringVals part_2_input
             printf "    read %d lines of input\n" (length vals2)
             let nvals = (map string2int (splitOn "," (head vals1)))
-          
-            let n = 80
             let state_1 = tally nvals (0,0,0,0,0,0,0,0,0)
-            let after_80 = do_count_n_days state_1 n
-            print (sum (tup_to_list after_80))
-
-            let n2 = 256
-            let after_256 = do_count_n_days state_1 n2
-            print (sum (tup_to_list after_256))
-
-
-
+            let answer1 = part1 state_1
+            let answer2 = part2 state_1
+           
+            printf "    read %d lines of input\n" (length vals2)
+            print answer1
+            print answer2
+            printf "    read %d lines of input\n" (length vals2)
             printf "\n\n   done  \n\n"
