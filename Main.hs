@@ -12,6 +12,7 @@ import Data.Char
 -- Day 3
 --  part 1 solution: 2003336
 --  part 2 solution: 
+
 part_1_test::[Char]
 part_1_test = "day3/aoc_03_test_1.txt"
 part_2_test::[Char]
@@ -21,6 +22,20 @@ part_1_input::[Char]
 part_1_input = "day3/aoc_03_part_1.txt"
 part_2_input::[Char]
 part_2_input = "day3/aoc_03_part_2.txt"
+
+count1::[Int] -> Int
+count1 xs = if (ones >= zeros) then 1 else 0
+    where
+        ones = tally 1 xs 0
+        zeros = tally 0 xs 0
+
+count0::[Int] -> Int
+count0 xs = if (zeros <= ones) then 0 else 1
+    where
+        ones = tally 1 xs 0
+        zeros = tally 0 xs 0
+
+
 
 
 tally:: Int -> [Int] -> Int -> Int
@@ -78,11 +93,10 @@ getIntVals path = do
                     contents <- readFile path
                     return (map (read::String->Int) (lines contents))
 
-getStringVals :: FilePath -> IO [String]
+getStringVals::FilePath -> IO [[Char]] 
 getStringVals path = do 
                         contents <- readFile path
                         return  (lines contents)
-
 
 
 fst3 (a,_,_) = a
@@ -103,11 +117,17 @@ main = do
           --  let answer2 = part2 state_1
           --  printf "    Part 2\n         Solution: %d\n" answer2
 
-
-            print vals2
-
-
-
+            let nvals =  bitchar_to_bitlist vals2
+            print nvals
+            print (length nvals)
+            let bits_by_pos = transpose nvals
+            let bit_length = length (head bits_by_pos)
+            print bits_by_pos
+            print (length bits_by_pos)
+            print bit_length
+            --have to discard as we go, and redo tally
+            printf "\n  o2: %s \n" (show o2)
+            printf "\n co2: %s \n" (show co2)
 
 
             printf "\n\n    ---  done ---     \n"
