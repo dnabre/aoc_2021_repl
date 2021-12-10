@@ -11,7 +11,8 @@
 | [Day 6: Lanternfish](https://adventofcode.com/2021/day/6)  | Automata | *   | * |
 | [Day 7: The Treachery of Whales](https://adventofcode.com/2021/day/7)   | Maths | *   | * |
 | [Day 8: Seven Segment Search](https://adventofcode.com/2021/day/8)  | Crypto | _   | _ |
-| [](https://adventofcode.com/2021/day/10)  |  | _   | _ |
+| [Day 9: Smoke Basin](https://adventofcode.com/2021/day/9)  | Image Processing | _   | _ |
+| [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | _   | _ |
 |   |  | _   | _ |
 |   |  | _   | _ |
 |   |  | _   | _ |

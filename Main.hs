@@ -9,77 +9,107 @@ import Data.List
 import Data.Char
 
 -- Advent of Code 2021
--- Day 3
---  part 1 solution: 2003336
+-- Day 10
+--  part 1 solution: 
 --  part 2 solution: 
 
 part_1_test::[Char]
-part_1_test = "day3/aoc_03_test_1.txt"
+part_1_test = "day10/aoc_10_test_1.txt"
 part_2_test::[Char]
-part_2_test = "day3/aoc_03_test_2.txt"
+part_2_test = "day10/aoc_10_test_2.txt"
 
 part_1_input::[Char]
-part_1_input = "day3/aoc_03_part_1.txt"
+part_1_input = "day10/aoc_10_part_1.txt"
 part_2_input::[Char]
-part_2_input = "day3/aoc_03_part_2.txt"
-
-count1::[Int] -> Int
-count1 xs = if (ones >= zeros) then 1 else 0
-    where
-        ones = tally 1 xs 0
-        zeros = tally 0 xs 0
-
-count0::[Int] -> Int
-count0 xs = if (zeros <= ones) then 0 else 1
-    where
-        ones = tally 1 xs 0
-        zeros = tally 0 xs 0
+part_2_input = "day10/aoc_10_part_2.txt"
 
 
+data R = R Int Int  deriving (Eq,Show)
+data S = S Int Int  deriving (Eq,Show)
+data C = C Int Int  deriving (Eq,Show)
+data A = A Int Int  deriving (Eq,Show)
+
+instance Monoid R where
+    mempty = R 0 0 
+
+instance Semigroup R where
+    (R a b) <> (R c d) 
+        | b <= c = R ( a + c - b) d
+        | otherwise = R a (d + b - c)
+--  --------- end R ---------  --
+
+instance Monoid S where
+    mempty = S 0 0 
 
 
-tally:: Int -> [Int] -> Int -> Int
-tally _ [] acc = acc
-tally value (x:xs) acc = if (value == x)  then (tally value xs (acc+1)) else (tally value xs acc)
+instance Semigroup S where
+    (S a b) <> (S c d) 
+        | b <= c = S ( a + c - b) d
+        | otherwise = S a (d + b - c)
+--  --------- end S ---------  --
 
-gamma_rate_char:: [Char] -> Int
-gamma_rate_char xs = gamma_rate (map digitToInt xs) 
+instance Monoid C where
+    mempty = C 0 0 
 
-gamma_rate:: [Int] -> Int
-gamma_rate xs = if (count1 >= count0) then 1 else 0
-    where
-        count1 = tally 1 xs 0
-        count0 = tally 0 xs  0 
-
-epsilon_rate_char :: [Char] -> Int
-epsilon_rate_char xs = epsilon_rate (map digitToInt xs)
-
-epsilon_rate:: [Int] -> Int
-epsilon_rate xs = if (count1 <= count0) then 1 else 0
-    where
-        count1 = tally 1 xs 0
-        count0 = tally 0 xs  0 
-
-bin2Dec :: [Int] -> Int
-bin2Dec = foldl' (\acc x -> acc * 2 + x) 0
-
-bitchar_to_bitlist :: [[Char]] -> [[Int]]
-bitchar_to_bitlist = map str2intlist
-    where
-        str2intlist::[Char] -> [Int]
-        str2intlist xs = map digitToInt xs
+instance Semigroup C where
+    (C a b) <> (C c d) 
+        | b <= c = C ( a + c - b) d
+        | otherwise = C a (d + b - c)
+--  --------- end C ---------  --
 
 
+instance Monoid A where
+    mempty = A 0 0 
 
-part1 ::[[Char]] -> (Int,Int,Int)
-part1 vals = (g,e,g*e)
-    where
-        tv = transpose vals
-        g_list = map gamma_rate_char tv
-        e_list = map epsilon_rate_char tv
-        g = bin2Dec g_list
-        e = bin2Dec e_list
+instance Semigroup A where
+    (A a b) <> (A c d) 
+        | b <= c = A ( a + c - b) d
+        | otherwise = A a (d + b - c)
 
+--  --------- end A ---------  --
+
+
+data Pairing = Paren , SBrace, CBrace, ABrace
+
+data Closing = Closing  (Seq Token) 
+
+
+parse1 '(' = R 0 1
+parse1 ')' = R 1 0
+parse1 _   = R 0 0 
+
+parse2 '[' = S 0 1
+parse2 ']' = S 1 0
+parse2 _   = S 0 0 
+
+parse3 '{' = C 0 1
+parse3 '}' = C 1 0
+parse3 _   = C 0 0 
+
+
+parse4 '<' = A 0 1
+parse4 '>' = A 1 0
+parse4 _   = A 0 0 
+
+
+
+
+balanced1 xs = foldMap parse1 xs ==  R 0 0
+balanced2 xs = foldMap parse2 xs ==  S 0 0
+balanced3 xs = foldMap parse3 xs ==  C 0 0
+balanced4 xs = foldMap parse4 xs ==  A 0 0 
+
+balanced xs = (balanced1 xs, balanced2 xs, balanced3 xs, balanced4 xs)
+
+isGood xs = good (balanced xs)
+     
+
+good (True, True, True, True) = True
+good _  = False
+
+-- based on "https://www.youtube.com/watch?v=Txf7swrcLYs" , not sure what I'm doing
+
+part1 x = undefined
 
 
 
@@ -99,39 +129,22 @@ getStringVals path = do
                         return  (lines contents)
 
 
-fst3 (a,_,_) = a
-snd3 (_,b,_) = b
-thrd3 (_,_,c) =c
 
---main :: IO()
+
+
 main = do 
-            printf "Advent of Code 2021, Day 3:\n"
-            vals1 <- getStringVals part_1_input
+            printf "Advent of Code 2021, Day 10:\n"
+            vals1 <- getStringVals part_1_test
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
             
-            let (_,_,answer1) = part1 vals1                   
-            printf "\n    Part 1\n         Solution: %d\n" answer1
-          
-          --  let answer2 = part2 state_1
-          --  printf "    Part 2\n         Solution: %d\n" answer2
-
-            let nvals =  bitchar_to_bitlist vals2
-            print nvals
-            print (length nvals)
-            let bits_by_pos = transpose nvals
-            let bit_length = length (head bits_by_pos)
-            print bits_by_pos
-            print (length bits_by_pos)
-            print bit_length
-            --have to discard as we go, and redo tally
-            printf "\n  o2: %s \n" (show o2)
-            printf "\n co2: %s \n" (show co2)
-
-
-            printf "\n\n    ---  done ---     \n"
-
-
-
-
+            print vals1
+            let l1 = (head vals1)
+            print l1
+            print (length l1)
+            let b1 = map balanced vals1
+            print b1
+            let g1 = map isGood vals1
+            print g1
+        
