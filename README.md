@@ -13,11 +13,17 @@
 | [Day 8: Seven Segment Search](https://adventofcode.com/2021/day/8)  | Crypto | _   | _ |
 | [Day 9: Smoke Basin](https://adventofcode.com/2021/day/9)  | Image Processing | _   | _ |
 | [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | _   | _ |
-|   |  | _   | _ |
-|   |  | _   | _ |
-|   |  | _   | _ |
-|   |  | _   | _ |
-|   |  | _   | _ |
-|   |  | _   | _ |
+| [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  |  | _   | _ |
+| [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  |  | _   | _ |
+| [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+
+
 
 Learning Haskell as I go, so pardon the ugly code and style.
