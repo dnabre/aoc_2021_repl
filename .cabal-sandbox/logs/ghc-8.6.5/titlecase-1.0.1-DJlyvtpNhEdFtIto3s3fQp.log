@@ -1,4 +1,4 @@
-cabal: Entering directory '/tmp/cabal-tmp-100/titlecase-1.0.1'
+cabal: Entering directory '/tmp/cabal-tmp-2547/titlecase-1.0.1'
 Configuring titlecase-1.0.1...
 Preprocessing library for titlecase-1.0.1..
 Building library for titlecase-1.0.1..
@@ -11,4 +11,4 @@ Building executable 'titlecase' for titlecase-1.0.1..
 Linking dist/dist-sandbox-11ecf6a4/build/titlecase/titlecase ...
 Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/titlecase-1.0.1-DJlyvtpNhEdFtIto3s3fQp
 Installing executable titlecase in /home/runner/Cabal-Haskell/.cabal-sandbox/bin
-cabal: Leaving directory '/tmp/cabal-tmp-100/titlecase-1.0.1'
+cabal: Leaving directory '/tmp/cabal-tmp-2547/titlecase-1.0.1'

@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/home/runner/.cabal/bin"
-libdir     = "/home/runner/.cabal/lib/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0-AflLez6b2dPHqNGMnJnMgE-Cabal-example"
-dynlibdir  = "/home/runner/.cabal/lib/x86_64-linux-ghc-8.6.5"
-datadir    = "/home/runner/.cabal/share/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0"
-libexecdir = "/home/runner/.cabal/libexec/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0"
-sysconfdir = "/home/runner/.cabal/etc"
+bindir     = "/home/runner/Cabal-Haskell/.cabal-sandbox/bin"
+libdir     = "/home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0-AflLez6b2dPHqNGMnJnMgE-Cabal-example"
+dynlibdir  = "/home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5"
+datadir    = "/home/runner/Cabal-Haskell/.cabal-sandbox/share/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0"
+libexecdir = "/home/runner/Cabal-Haskell/.cabal-sandbox/libexec/x86_64-linux-ghc-8.6.5/Cabal-example-0.1.0.0"
+sysconfdir = "/home/runner/Cabal-Haskell/.cabal-sandbox/etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "Cabal_example_bindir") (\_ -> return bindir)

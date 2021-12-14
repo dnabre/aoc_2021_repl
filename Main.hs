@@ -8,13 +8,11 @@ import Data.Char
 import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 import qualified Data.Map as Map
-
-
-
+import qualified Data.MultiSet as MultiSet
 
 -- Advent of Code 2021
 -- Day 14
---  part 1 solution: 
+--  part 1 solution: 2657
 --  part 2 solution: 
 
 part_1_test::[Char]
@@ -26,15 +24,24 @@ part_1_input = "day14/aoc_14_part_1.txt"
 part_2_input::[Char]
 part_2_input = "day14/aoc_14_part_2.txt"
 
+getManyRare::[Char]->((Char,Int),(Char,Int))
+getManyRare ss = (head ml, head (reverse ml))
+    where
+        ml = sortOn snd $ MultiSet.toOccurList ms
+        ms = MultiSet.fromList ss
 
 
 
---counter x = foldr (uncurry $ insertWith (+)) empty $ zip x (repeat 1)
+getMR ss = ml
+    where
+        ml = sort $ MultiSet.toOccurList ms
+        ms = MultiSet.fromList ss
 
---common = maximum . map (\x -> (length x, head x)) . Data.List.group . sort
---rare = minimum . map (\x -> (length x, head x)) . Data.List.group . sort
 
-part1 x = undefined
+part1 template c_map  n = (o_max - o_min,length exp0)
+    where
+        exp0 = stepExpand template c_map n
+        mr@((_,o_min),(_,o_max)) =  getManyRare exp0
 
 
 part2 x = undefined
@@ -62,7 +69,7 @@ splitEmptyLine ls = splitEmptyLine' ls []
 
 
 
-    
+parseEqs::[Char] -> (Char, Char, Char)
 parseEqs ls =  (a,b,t)
     where
         (ps:ff:_) = splitOn " -> " ls
@@ -70,6 +77,7 @@ parseEqs ls =  (a,b,t)
         b = (head (drop 1 ps))
         t = (head ff)
 
+insertPairListMap::[(Char,Char,Char)] -> Map.Map (Char,Char) Char -> Map.Map (Char,Char) Char
 insertPairListMap [] m = m
 insertPairListMap ((a,b,t):xs) m = insertPairListMap xs (Map.insert (a,b) t m)
 
@@ -87,6 +95,7 @@ expandPairs (a,b) m = [a,(getM mb)]
 insertChems::[(Char,Char)]->Map.Map (Char, Char) Char -> [Char]
 insertChems pair_list c_map = (concatMap (\p->expandPairs p c_map) pair_list) ++ (lastLet pair_list)
 
+lastLet::[(Char,Char)]->[Char]
 lastLet pair_list = [ snd $ head (reverse pair_list) ]
 
 makePairList::[Char]->[(Char,Char)]
@@ -97,48 +106,47 @@ makePairList ls = makePairList' ls []
         makePairList' (x:y:xs) acc = makePairList' (y:xs) ((x,y):acc)
 
 
+stepExpand::[Char]-> Map.Map (Char,Char) Char -> Int -> [Char]
+stepExpand p_list _ 0 = p_list
+stepExpand p_list c_map n = stepExpand (insertChems (makePairList p_list) c_map) c_map (n-1)
+
+
+parseAll vals1 = (template, c_map)
+    where
+        (template_string,eq_strings) = splitEmptyLine vals1
+        template = head template_string
+        c_list = map parseEqs eq_strings
+        c_map = insertPairListMap c_list Map.empty
 
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 14:\n"
-            vals1 <- getStringVals part_1_test
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_input
+            vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
 
-           
-            let (template_string,eq_strings) = splitEmptyLine vals1
-            let template = head template_string
-         
+            let (template, c_map) = parseAll vals1
             
-            let c_list = map parseEqs eq_strings
-            let c_map = insertPairListMap c_list Map.empty
-           -- print c_map
+            let (t2,c_map2) = parseAll vals2
+
+            let r = part1 t2 c_map 40
+            print r
+       
             
-            let pair_list = makePairList template
+  
+
         
-            printf "\n    Template: %s\n" template           
-            let exp1 = insertChems pair_list c_map 
-            printf "    After step 1: %s\n" exp1
-            
-
-            let exp2 = insertChems (makePairList exp1) c_map
-            printf "    After step 2: %s\n" exp2
-           
-            let exp3 = insertChems (makePairList exp2) c_map
-            printf "    After step 3: %s\n" exp3
-
-            let exp4 = insertChems (makePairList exp3) c_map
-            printf "    After step 4: %s\n" exp4
 
 
+--stepExpand::[Char]-> Map.Map (Char,Char) Char -> Int -> [Char]
+--stepExpand p_list _ 0 = p_list
+--stepExpand p_list c_map n = stepExpand (insertChems (makePairList p_list) c_map) c_map (n-1)
 
-
-
-            let answer1 = 0
+ --           let answer1 = part1 template c_map 10
             let answer2 = 0
 
-          --  printf "\n   Part 1    Solution: %d \n" answer1
+ --           printf "\n   Part 1    Solution: %d \n" answer1
           --  printf "\n   Part 2    Solution: %d \n" answer2
 
             print "done"
