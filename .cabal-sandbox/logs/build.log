@@ -18,3 +18,85 @@ dependencies: base-4.12.0.0
 install-outcome: InstallOk
 docs-outcome: NotTried
 tests-outcome: NotTried
+
+package: base-orphans-0.8.6
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 ghc-prim-0.5.3
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: hashable-1.4.0.1
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: containers integer-gmp -random-initial-seed
+dependencies: base-4.12.0.0 base-orphans-0.8.6 bytestring-0.10.8.2
+              containers-0.6.0.1 deepseq-1.4.4.0 ghc-prim-0.5.3
+              integer-gmp-1.0.2.0 text-1.2.3.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: mono-traversable-1.0.15.1
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 bytestring-0.10.8.2 containers-0.6.0.1
+              hashable-1.4.0.1 split-0.2.3.4 text-1.2.3.1 transformers-0.5.6.2
+              unordered-containers-0.2.16.0 vector-0.12.3.1
+              vector-algorithms-0.8.0.4
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: primitive-0.7.3.0
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 deepseq-1.4.4.0 transformers-0.5.6.2
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: unordered-containers-0.2.16.0
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: -debug
+dependencies: base-4.12.0.0 deepseq-1.4.4.0 hashable-1.4.0.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: vector-0.12.3.1
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: boundschecks -internalchecks -unsafechecks -wall
+dependencies: base-4.12.0.0 deepseq-1.4.4.0 ghc-prim-0.5.3
+              primitive-0.7.3.0
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: vector-algorithms-0.8.0.4
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: bench boundschecks -internalchecks -llvm properties
+       -unsafechecks
+dependencies: base-4.12.0.0 bytestring-0.10.8.2 primitive-0.7.3.0
+              vector-0.12.3.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried

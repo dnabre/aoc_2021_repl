@@ -33,6 +33,17 @@
   (major1) == 0 && (major2) == 6 && (minor) <= 0)
 #endif /* MIN_VERSION_containers */
 
+/* package mono-traversable-1.0.15.1 */
+#ifndef VERSION_mono_traversable
+#define VERSION_mono_traversable "1.0.15.1"
+#endif /* VERSION_mono_traversable */
+#ifndef MIN_VERSION_mono_traversable
+#define MIN_VERSION_mono_traversable(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  0 || \
+  (major1) == 1 && (major2) == 0 && (minor) <= 15)
+#endif /* MIN_VERSION_mono_traversable */
+
 /* package split-0.2.3.4 */
 #ifndef VERSION_split
 #define VERSION_split "0.2.3.4"

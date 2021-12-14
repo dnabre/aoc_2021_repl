@@ -15,7 +15,7 @@
 | [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | _   | _ |
 | [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  |  | _   | _ |
 | [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  |  | _   | _ |
-| [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | _   | _ |
+| [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
