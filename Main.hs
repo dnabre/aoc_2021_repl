@@ -13,7 +13,7 @@ import qualified Data.MultiSet as MultiSet
 -- Advent of Code 2021
 -- Day 14
 --  part 1 solution: 2657
---  part 2 solution: 
+--  part 2 solution: 2911561572630
 
 part_1_test::[Char]
 part_1_test = "day14/aoc_14_test_1.txt"
@@ -30,7 +30,17 @@ getManyRare ss = (head ml, head (reverse ml))
         ml = sortOn snd $ MultiSet.toOccurList ms
         ms = MultiSet.fromList ss
 
-getManyRareMSet s =  map (\(ch,n) ->  (ch, cc n))       $MultiSet.toOccurList ms
+
+getManyRareSet mset = (head ml, head (reverse ml))
+    where
+        ol = MultiSet.toOccurList mset
+        cc = (\n -> (n + 1) `div` 2)
+        sol = concatMap (\((a,b),n)-> [(a,n),(b,n)]) ol
+        ms = MultiSet.fromOccurList sol
+        fixed_ms = map (\(ch,n)->(ch,cc n)) $ MultiSet.toOccurList ms
+        ml = sortOn snd fixed_ms   
+
+getManyRareMSetD s =  map (\(ch,n) ->  (ch, cc n))       $MultiSet.toOccurList ms
     where
         cc = (\n -> (n + 1) `div` 2)
         ol = MultiSet.toOccurList s
@@ -43,7 +53,12 @@ part1 template c_map  n = (o_max - o_min)
         mr@((_,o_min),(_,o_max)) =  getManyRare exp0
 
 
-part2 x = undefined
+part2 template c_map = (o_max - o_min)
+    where
+        pairs_mset = makeMSPairs (makePairList template)
+        step_40 = stepOCExpand  pairs_mset c_map 40 
+        mr@((_,o_min),(_,o_max)) =  getManyRareSet step_40    
+        
            
 getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
@@ -155,72 +170,20 @@ main = do
             printf "Advent of Code 2021, Day 14:\n"
             vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_test
+            vals2 <- getStringVals part_2_input
             printf "    read %d lines of input\n" (length vals2)
 
             let (template1, c_map1) = parseAll vals1
          --   let answer1 = part1 template1 c_map1 10
          --   printf "\n   Part 1    Solution: %d \n" answer1
 
-            let (template,c_map) = parseAll vals2
-            printf "\n    Template    : %s   \n    %s\n" template (show  $ listToMSOccurs template)
-            let step1 = stepExpand template c_map 1
-            printf "    After step 1: %s   \n    %s\n" step1 (show . sort $ listToMSOccurs  step1)
-            printf "        rare/few: %s \n" (show $ getManyRare step1)
-            let step2 = stepExpand template c_map 2 
-            printf "    After step 2: %s   \n    %s\n" step2 (show . sort$ listToMSOccurs  step2)
-            printf "        rare/few: %s \n" (show $ getManyRare step2)
-            let step3 = stepExpand template c_map 3 
-            printf "    After step 3: %s   \n    %s\n" step3 (show . sort$ listToMSOccurs  step3)
-            printf "        rare/few: %s \n" (show $ getManyRare step3)
-            let step4 = stepExpand template c_map 4  
-            printf "    After step 4: %s   \n    %s\n\n\n" step4 (show .sort $ listToMSOccurs  step4)
-            printf "        rare/few: %s \n" (show $ getManyRare step4)
-            print (makePairList template)
-            let pairs_mset = makeMSPairs (makePairList template)
-            print pairs_mset
-            
-            let oc_list = MultiSet.toOccurList pairs_mset
-            print oc_list
-            
-            let oc_list2 = concatMap (\o->expandOccurs o c_map) oc_list
-            let oc_set2 = MultiSet.fromOccurList oc_list2
-            printf "\n-> "
-            print oc_set2
-            printf "        rare/few: %s \n" (show $ getManyRareMSet oc_set2)
-            let oc_list3 = concatMap (\o->expandOccurs o c_map) oc_list2
-            let oc_set3 = MultiSet.fromOccurList oc_list3
-            printf "\n-> "
-            print oc_set3
-            printf "        rare/few: %s \n" (show $ getManyRareMSet oc_set3)
-            let oc_list4 = concatMap (\o->expandOccurs o c_map) oc_list3
-            let oc_set4 = MultiSet.fromOccurList oc_list4
-            printf "\n-> "
-            print oc_set4
-            printf "        rare/few: %s \n" (show $ getManyRareMSet oc_set4)
-            let oc_list5 = concatMap (\o->expandOccurs o c_map) oc_list4
-            let oc_set5 = MultiSet.fromOccurList oc_list5
-            printf "\n-> "
-            print oc_set5
-            printf "        rare/few: %s \n" (show $ getManyRareMSet oc_set5)
-            let test_5 = (stepOCExpand pairs_mset c_map 4)
-            print test_5
-            printf "        rare/few: %s \n" (show $ getManyRareMSet test_5)
-            
-            
-  
+            let (template2,c_map2) = parseAll vals2
 
-        
+            let answer1 = part1 template1 c_map1 10
 
+            printf "\n   Part 1    Solution: %d \n" answer1         
 
---stepExpand::[Char]-> Map.Map (Char,Char) Char -> Int -> [Char]
---stepExpand p_list _ 0 = p_list
---stepExpand p_list c_map n = stepExpand (insertChems (makePairList p_list) c_map) c_map (n-1)
-
-   --         let answer1 = part1 template1 c_map1 10
-   --         let answer2 = 0
-
-  --          printf "\n   Part 1    Solution: %d \n" answer1
-          --  printf "\n   Part 2    Solution: %d \n" answer2
+            let answer2 = part2 template2 c_map2
+            printf "\n   Part 2    Solution: %d \n" answer2
 
             print "done"

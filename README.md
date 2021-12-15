@@ -16,8 +16,8 @@
 | [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  |  | _   | _ |
 | [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  |  | _   | _ |
 | [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
-| [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | _ |
-| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | * |
+| [Day 15: Chiton ](https://adventofcode.com/2021/day/15)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
