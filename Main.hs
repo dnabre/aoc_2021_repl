@@ -1,3 +1,5 @@
+{-# LANGUAGE MultiWayIf #-}
+
 module Main where
 import System.Environment
 import System.Exit
@@ -5,163 +7,143 @@ import Text.Printf
 import Data.List.Split
 import Data.List
 import Data.Char
-import qualified Data.IntSet as IntSet
-import qualified Data.Set as Set
-import qualified Data.Map as Map
-import qualified Data.MultiSet as MultiSet
-
 
 -- Advent of Code 2021
--- Day 14
---  part 1 solution: 2657
---  part 2 solution: 2911561572630
+-- Day 3
+--  part 1 solution: 2003336
+--  part 2 solution: 1877139
 
 part_1_test::[Char]
-part_1_test = "day14/aoc_14_test_1.txt"
+part_1_test = "day3/aoc_03_test_1.txt"
 part_2_test::[Char]
-part_2_test = "day14/aoc_14_test_2.txt"
+part_2_test = "day3/aoc_03_test_2.txt"
+
 part_1_input::[Char]
-part_1_input = "day14/aoc_14_part_1.txt"
+part_1_input = "day3/aoc_03_part_1.txt"
 part_2_input::[Char]
-part_2_input = "day14/aoc_14_part_2.txt"
+part_2_input = "day3/aoc_03_part_2.txt"
 
-getManyRare::[Char]->((Char,Int),(Char,Int))
-getManyRare ss = (head ml, head (reverse ml))
+count1::[Int] -> Int
+count1 xs = if (ones >= zeros) then 1 else 0
     where
-        ml = sortOn snd $ MultiSet.toOccurList ms
-        ms = MultiSet.fromList ss
+        ones = tally 1 xs 0
+        zeros = tally 0 xs 0
 
-getManyRareSet::MultiSet.MultiSet (Char,Char) -> ((Char,Int),(Char,Int))
-getManyRareSet mset = (head ml, head (reverse ml))
+count0::[Int] -> Int
+count0 xs = if (zeros <= ones) then 0 else 1
     where
-        ol = MultiSet.toOccurList mset
-        cc = (\n -> (n + 1) `div` 2)
-        sol = concatMap (\((a,b),n)-> [(a,n),(b,n)]) ol
-        ms = MultiSet.fromOccurList sol
-        fixed_ms = map (\(ch,n)->(ch,cc n)) $ MultiSet.toOccurList ms
-        ml = sortOn snd fixed_ms   
+        ones = tally 1 xs 0
+        zeros = tally 0 xs 0
 
-part1::[Char]->Map.Map (Char,Char) Char -> Int ->Int
-part1 template c_map  n = (o_max - o_min)
-    where
-        exp0 = stepExpand template c_map n
-        mr@((_,o_min),(_,o_max)) =  getManyRare exp0
 
-part2::[Char]->Map.Map (Char,Char) Char->Int
-part2 template c_map = (o_max - o_min)
+countOnes :: Int -> [[Char]] -> Int
+countOnes idx lines = length $ filter (== '1') $ map (!! idx) lines
+
+tally:: Int -> [Int] -> Int -> Int
+tally _ [] acc = acc
+tally value (x:xs) acc = if (value == x)  then (tally value xs (acc+1)) else (tally value xs acc)
+
+gamma_rate_char:: [Char] -> Int
+gamma_rate_char xs = gamma_rate (map digitToInt xs) 
+
+gamma_rate:: [Int] -> Int
+gamma_rate xs = if (count1 >= count0) then 1 else 0
     where
-        pairs_mset = makeMSPairs (makePairList template)
-        step_40 = stepOCExpand  pairs_mset c_map 40 
-        mr@((_,o_min),(_,o_max)) =  getManyRareSet step_40    
-        
-           
-getStringVals :: FilePath -> IO [String]
+        count1 = tally 1 xs 0
+        count0 = tally 0 xs  0 
+
+epsilon_rate_char :: [Char] -> Int
+epsilon_rate_char xs = epsilon_rate (map digitToInt xs)
+
+epsilon_rate:: [Int] -> Int
+epsilon_rate xs = if (count1 <= count0) then 1 else 0
+    where
+        count1 = tally 1 xs 0
+        count0 = tally 0 xs  0 
+
+bin2Dec :: [Int] -> Int
+bin2Dec = foldl' (\acc x -> acc * 2 + x) 0
+
+bitchar_to_bitlist :: [[Char]] -> [[Int]]
+bitchar_to_bitlist = map str2intlist
+    where
+        str2intlist::[Char] -> [Int]
+        str2intlist xs = map digitToInt xs
+
+charBin2Dec::[Char]->Int
+charBin2Dec ss = bin2Dec (head (bitchar_to_bitlist [ss]))
+
+
+
+
+
+getRating n [x] _ = x
+getRating n lines bits = getRating (n+1)  next_lines bits
+    where
+        (ll,rr) = bits
+        ones = countOnes n lines
+        fewBits = if (2*ones) >= (length lines) then ll else rr
+        next_lines = filter (\s-> (s !! n) == fewBits ) lines
+
+part1 ::[[Char]] -> (Int,Int,Int)
+part1 vals = (g,e,g*e)
+    where
+        tv = transpose vals
+        g_list = map gamma_rate_char tv
+        e_list = map epsilon_rate_char tv
+        g = bin2Dec g_list
+        e = bin2Dec e_list
+
+
+
+
+part2 lines = product (map charBin2Dec ratings)
+    where
+        ratings = map (\b->getRating 0 lines b) [('1','0'),('0','1')]
+            
+
+
+
+getIntVals :: FilePath -> IO [Int]
+getIntVals path = do 
+                    contents <- readFile path
+                    return (map (read::String->Int) (lines contents))
+
+getStringVals::FilePath -> IO [[Char]] 
 getStringVals path = do 
                         contents <- readFile path
                         return  (lines contents)
-
-string2int::[Char]->Int               
-string2int = r
-    where 
-        r:: [Char] -> Int
-        r = read
-
-rowString2list :: [Char] -> [Int]
-rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
-
-splitEmptyLine::[[Char]]->([[Char]],[[Char]])
-splitEmptyLine ls = splitEmptyLine' ls []
+getOneCounts::[[Char]]->[Int]
+getOneCounts lines = map (\i-> countOnes i lines) [0..(binLength-1)]
     where
-        splitEmptyLine' ("":xs) p =  (reverse p,xs)
-        splitEmptyLine' (x:xs) p = splitEmptyLine' xs (x:p)
+        binLength = length (head lines)
 
-parseEqs::[Char] -> (Char, Char, Char)
-parseEqs ls =  (a,b,t)
-    where
-        (ps:ff:_) = splitOn " -> " ls
-        a = (head ps)
-        b = (head (drop 1 ps))
-        t = (head ff)
-
-insertPairListMap::[(Char,Char,Char)] -> Map.Map (Char,Char) Char -> Map.Map (Char,Char) Char
-insertPairListMap [] m = m
-insertPairListMap ((a,b,t):xs) m = insertPairListMap xs (Map.insert (a,b) t m)
-
-expandPairs:: (Char,Char) -> Map.Map (Char,Char) Char -> [Char]
-expandPairs (a,b) m = [a,(getM mb)]
-    where
-        mb = Map.lookup (a,b) m
-        getM Nothing = ' '
-        getM (Just t) = t
-
-insertChems::[(Char,Char)]->Map.Map (Char, Char) Char -> [Char]
-insertChems pair_list c_map = (concatMap (\p->expandPairs p c_map) pair_list) ++ (lastLet pair_list)
-
-lastLet::[(Char,Char)]->[Char]
-lastLet pair_list = [ snd $ head (reverse pair_list) ]
-
-makePairList::[Char]->[(Char,Char)]
-makePairList ls = makePairList' ls []
-    where
-        makePairList' [] acc = reverse acc
-        makePairList' (x:[]) acc =reverse acc
-        makePairList' (x:y:xs) acc = makePairList' (y:xs) ((x,y):acc)
+fst3 (a,_,_) = a
+snd3 (_,b,_) = b
+thrd3 (_,_,c) =c
 
 
-stepExpand::[Char]-> Map.Map (Char,Char) Char -> Int -> [Char]
-stepExpand p_list _ 0 = p_list
-stepExpand p_list c_map n = stepExpand (insertChems (makePairList p_list) c_map) c_map (n-1)
-
-stepOCExpand::MultiSet.MultiSet (Char,Char) -> Map.Map (Char, Char) Char -> Int -> MultiSet.MultiSet (Char, Char)
-stepOCExpand m_set _ 0 = m_set
-stepOCExpand m_set c_map n =  stepOCExpand (next_mset ) c_map (n-1)
-    where
-        ol = MultiSet.toOccurList m_set
-        n_ol= concatMap (\o->expandOccurs o c_map) ol
-        next_mset = MultiSet.fromOccurList n_ol
-
-expandOccurs :: ((Char,Char),Int) -> Map.Map (Char,Char) Char -> [((Char,Char),Int)]
-expandOccurs ((a,b),n) m = [((a,c),n),((c,b),n)]
-    where
-        getM Nothing = ' '
-        getM (Just t) = t
-        c = getM (Map.lookup (a,b) m)
-
-
-expandPair:: (Char, Char) -> Map.Map (Char, Char) Char -> [(Char,Char)]
-expandPair (a,b) c_map = [(a,c), (c,b)]
-    where
-        m_lookup = Map.lookup (a,b) c_map
-        getM Nothing = ' '
-        getM (Just t) = t
-        c = getM m_lookup
-
-makeMSPairs::[(Char,Char)] -> MultiSet.MultiSet (Char,Char)
-makeMSPairs ss = MultiSet.fromList ss
-
-parseAll::[[Char]]->([Char], Map.Map (Char, Char) Char)
-parseAll vals1 = (template, c_map)
-    where
-        (template_string,eq_strings) = splitEmptyLine vals1
-        template = head template_string
-        c_list = map parseEqs eq_strings
-        c_map = insertPairListMap c_list Map.empty
-
-main :: IO()
 main = do 
-            printf "Advent of Code 2021, Day 14:\n"
+            printf "Advent of Code 2021, Day 3:\n"
             vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_input
-            printf "    read %d lines of input\n" (length vals2)
+            lines <- getStringVals part_2_input
+            printf "    read %d lines of input\n" (length lines)
+            
+            let (_,_,answer1) = part1 vals1                   
+            printf "\n    Part 1\n         Solution: %d\n" answer1
+          
+            let answer2 = part2 lines
 
-            let (template1, c_map1) = parseAll vals1
-            let answer1 = part1 template1 c_map1 10
-            printf "\n   Part 1    Solution: %d \n" answer1         
 
-            let (template2,c_map2) = parseAll vals2
-            let answer2 = part2 template2 c_map2
-            printf "\n   Part 2    Solution: %d \n" answer2
+           
+            
+          --  let ratings@[oxyRating,co2Rating] = map (\b->getRating 0 lines b) [('1','0'),('0','1')]
+           -- let answer2 = product (map charBin2Dec ratings)
+          
+            printf "    Part 2\n         Solution: %d\n" answer2
+            printf "\n\n    ---  done ---     \n"
+
 
 
 
