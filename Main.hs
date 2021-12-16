@@ -1,12 +1,11 @@
-{-# LANGUAGE MultiWayIf #-}
+
 
 module Main where
-import System.Environment
-import System.Exit
+
 import Text.Printf
-import Data.List.Split
 import Data.List
 import Data.Char
+
 
 -- Advent of Code 2021
 -- Day 3
@@ -101,9 +100,6 @@ part2 lines = product (map charBin2Dec ratings)
     where
         ratings = map (\b->getRating 0 lines b) [('1','0'),('0','1')]
             
-
-
-
 getIntVals :: FilePath -> IO [Int]
 getIntVals path = do 
                     contents <- readFile path
@@ -118,11 +114,6 @@ getOneCounts lines = map (\i-> countOnes i lines) [0..(binLength-1)]
     where
         binLength = length (head lines)
 
-fst3 (a,_,_) = a
-snd3 (_,b,_) = b
-thrd3 (_,_,c) =c
-
-
 main = do 
             printf "Advent of Code 2021, Day 3:\n"
             vals1 <- getStringVals part_1_input
@@ -135,12 +126,6 @@ main = do
           
             let answer2 = part2 lines
 
-
-           
-            
-          --  let ratings@[oxyRating,co2Rating] = map (\b->getRating 0 lines b) [('1','0'),('0','1')]
-           -- let answer2 = product (map charBin2Dec ratings)
-          
             printf "    Part 2\n         Solution: %d\n" answer2
             printf "\n\n    ---  done ---     \n"
 
