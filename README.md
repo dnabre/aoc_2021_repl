@@ -13,12 +13,12 @@
 | [Day 8: Seven Segment Search](https://adventofcode.com/2021/day/8)  | Crypto | _   | _ |
 | [Day 9: Smoke Basin](https://adventofcode.com/2021/day/9)  | Image Processing | _   | _ |
 | [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | _   | _ |
-| [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  |  | _   | _ |
-| [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  |  | _   | _ |
+| [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  | Automata | _   | _ |
+| [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  | Graph Search | _   | _ |
 | [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
 | [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | * |
-| [Day 15: Chiton ](https://adventofcode.com/2021/day/15)  |  | _   | _ |
-| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
+| [Day 15: Chiton ](https://adventofcode.com/2021/day/15)  | Shortest Path | _   | _ |
+| [Day 16: Packet Decoder](https://adventofcode.com/2021/day/16)  |Bitwise-Parsing  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |

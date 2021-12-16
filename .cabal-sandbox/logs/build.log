@@ -28,3 +28,59 @@ dependencies: base-4.12.0.0 containers-0.6.0.1 deepseq-1.4.4.0
 install-outcome: InstallOk
 docs-outcome: NotTried
 tests-outcome: NotTried
+
+package: astar-0.3.0.0
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 hashable-1.4.0.1 psqueues-0.2.7.3
+              unordered-containers-0.2.16.0
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: base-orphans-0.8.6
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 ghc-prim-0.5.3
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: hashable-1.4.0.1
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: containers integer-gmp -random-initial-seed
+dependencies: base-4.12.0.0 base-orphans-0.8.6 bytestring-0.10.8.2
+              containers-0.6.0.1 deepseq-1.4.4.0 ghc-prim-0.5.3
+              integer-gmp-1.0.2.0 text-1.2.3.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: psqueues-0.2.7.3
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+dependencies: base-4.12.0.0 deepseq-1.4.4.0 ghc-prim-0.5.3
+              hashable-1.4.0.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried
+
+package: unordered-containers-0.2.16.0
+os: linux
+arch: x86_64
+compiler: ghc-8.6.5
+client: cabal-install-2.4.1.0
+flags: -debug
+dependencies: base-4.12.0.0 deepseq-1.4.4.0 hashable-1.4.0.1
+install-outcome: InstallOk
+docs-outcome: NotTried
+tests-outcome: NotTried

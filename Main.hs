@@ -10,6 +10,7 @@ import qualified Data.Set as Set
 import qualified Data.Map as Map
 import qualified Data.MultiSet as MultiSet
 
+
 -- Advent of Code 2021
 -- Day 14
 --  part 1 solution: 2657
@@ -161,3 +162,6 @@ main = do
             let (template2,c_map2) = parseAll vals2
             let answer2 = part2 template2 c_map2
             printf "\n   Part 2    Solution: %d \n" answer2
+
+
+

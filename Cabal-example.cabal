@@ -60,7 +60,8 @@ executable Cabal-example
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.12 && <4.13, titlecase, split, containers,multiset
+  build-depends:       base >=4.12 && <4.13, titlecase, split, containers, multiset, PSQueue
+                        
   -- Directories containing source files.
   -- hs-source-dirs:
 
