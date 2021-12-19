@@ -19,7 +19,7 @@
 | [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | * |
 | [Day 15: Chiton ](https://adventofcode.com/2021/day/15)  | Shortest Path | _   | _ |
 | [Day 16: Packet Decoder](https://adventofcode.com/2021/day/16)  |Bitwise-Parsing  | _   | _ |
-| [Day 17: Trick Shot](https://adventofcode.com/2021/day/17)  |  | _   | _ |
+| [Day 17: Trick Shot](https://adventofcode.com/2021/day/17)  | Ballistic Calcution | *   | _ |
 | [Day 18: Snailfish](https://adventofcode.com/2021/day/18)  | List Manipulation | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
 | [](https://adventofcode.com/2021/day/)  |  | _   | _ |
