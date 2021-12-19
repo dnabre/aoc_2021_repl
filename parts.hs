@@ -9,10 +9,31 @@ main = do
 
 set_sum::IntSet.IntSet->Int
 set_sum iset = sum (IntSet.toList iset)
+-- Set colors and write some text in those colors.
+sgrExample :: IO ()
+sgrExample = do
+    putStrLn "Default Test"
+    setSGR [SetConsoleIntensity BoldIntensity]
+    putStrLn "this is bold"
+    setSGR [SetConsoleIntensity NormalIntensity]
+    setSGR [SetColor Foreground Vivid Red]
+    setSGR [SetColor Background Vivid Blue]
+    putStr "Red-On-Blue\n"
+    setSGR [Reset]
+    putStr "White-On-Black\n"
 
 
 import System.IO()
 
+            putStrLn $ "\ESC[0mdefault"
+            putStrLn $ "\ESC[30mblack"
+            putStrLn $ "\ESC[31mred"
+            putStrLn $ "\ESC[32mgreen"
+            putStrLn $ "\ESC[33myellow"
+            putStrLn $ "\ESC[34mblue"
+            putStrLn $ "\ESC[35mmagenta"
+            putStrLn $ "\ESC[36mcyan"
+            putStrLn $ "\ESC[37mwhite"
 
 
 import Data.Char (digitToInt)
