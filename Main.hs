@@ -5,7 +5,6 @@ import Text.Printf
 import Data.List.Split
 import Data.List
 import Data.Char
-import Data.Maybe
 import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 import qualified Data.Map as Map
@@ -13,18 +12,18 @@ import qualified Data.MultiSet as MultiSet
 
 
 -- Advent of Code 2021
--- Day 9
---  part 1 solution: 436
---  part 2 solution: 1317792
+-- Day 14
+--  part 1 solution: 2657
+--  part 2 solution: 2911561572630
 
 part_1_test::[Char]
-part_1_test = "day9/aoc_09_test_1.txt"
+part_1_test = "day14/aoc_14_test_1.txt"
 part_2_test::[Char]
-part_2_test = "day9/aoc_09_test_2.txt"
+part_2_test = "day14/aoc_14_test_2.txt"
 part_1_input::[Char]
-part_1_input = "day9/aoc_09_part_1.txt"
+part_1_input = "day14/aoc_14_part_1.txt"
 part_2_input::[Char]
-part_2_input = "day9/aoc_09_part_2.txt"
+part_2_input = "day14/aoc_14_part_2.txt"
 
 getManyRare::[Char]->((Char,Int),(Char,Int))
 getManyRare ss = (head ml, head (reverse ml))
@@ -32,42 +31,30 @@ getManyRare ss = (head ml, head (reverse ml))
         ml = sortOn snd $ MultiSet.toOccurList ms
         ms = MultiSet.fromList ss
 
-part1:: [[Char]]->Int
-part1 vals = sum (map (\x-> x + 1) low_list)
+getManyRareSet::MultiSet.MultiSet (Char,Char) -> ((Char,Int),(Char,Int))
+getManyRareSet mset = (head ml, head (reverse ml))
     where
-        m_grid = initMapGrid vals
-        key_list = Map.keys m_grid
-        low_list = concatMap (\k-> getLowValue k m_grid) key_list
+        ol = MultiSet.toOccurList mset
+        cc = (\n -> (n + 1) `div` 2)
+        sol = concatMap (\((a,b),n)-> [(a,n),(b,n)]) ol
+        ms = MultiSet.fromOccurList sol
+        fixed_ms = map (\(ch,n)->(ch,cc n)) $ MultiSet.toOccurList ms
+        ml = sortOn snd fixed_ms   
+
+part1::[Char]->Map.Map (Char,Char) Char -> Int ->Int
+part1 template c_map  n = (o_max - o_min)
+    where
+        exp0 = stepExpand template c_map n
+        mr@((_,o_min),(_,o_max)) =  getManyRare exp0
+
+part2::[Char]->Map.Map (Char,Char) Char->Int
+part2 template c_map = (o_max - o_min)
+    where
+        pairs_mset = makeMSPairs (makePairList template)
+        step_40 = stepOCExpand  pairs_mset c_map 40 
+        mr@((_,o_min),(_,o_max)) =  getManyRareSet step_40    
         
-
-     
-
-part2 x = undefined    
-
-getLowPoints::Map.Map Point Int->[Point]
-getLowPoints m_grid = low_points
-    where
-        key_list = Map.keys m_grid
-        low_points = filter (\p-> (getLowValue p m_grid) /= [] ) key_list
-
-initMapGrid :: [[Char]] -> Map.Map Point Int
-initMapGrid vals = Map.fromList (foldl (++) [] pgp)
-    where
-        pps = map (\l->map digitToInt l) vals
-        x_w = length (head vals)
-        y_w = length vals
-        g_p = gPoints x_w y_w
-        gpg = zip g_p pps
-        pgp = map (\(p,v)-> zip p v) gpg
-
-
-         
-gPoints:: Int->Int->[[Point]]
-gPoints x_w y_w = map (bline x_w) [1..y_w]
-    where
-        bline num_x y_value = [(Point x y_value) | x<-[1..num_x]]
-
-
+           
 getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
                         contents <- readFile path
@@ -88,100 +75,93 @@ splitEmptyLine ls = splitEmptyLine' ls []
         splitEmptyLine' ("":xs) p =  (reverse p,xs)
         splitEmptyLine' (x:xs) p = splitEmptyLine' xs (x:p)
 
-
-data Point = Point Int Int deriving (Show,Eq,Ord)
-
-
-printPoints::Map.Map Point Int -> Int -> Int -> IO ()
-printPoints g_map x_w y_w = putStr (concatMap (\s->s ++ ['\n']) lls)
-    where 
-        pl = Map.toList g_map
-        l1 is_y =concatMap show $ map (\(Point _ _,v)-> v) $  (filter (\(Point x y,v)-> (y == is_y)) pl)
-        lls =  map (\y->l1 y) [1..y_w]
-
-addPoint::Point->(Int,Int)->Point 
-addPoint (Point x y) (dx,dy) = Point (x+dx) (y+dy)
-
-getNeighborPoints::Point->Map.Map Point Int ->[Point]
-getNeighborPoints p m_grid  = f_coords
+parseEqs::[Char] -> (Char, Char, Char)
+parseEqs ls =  (a,b,t)
     where
-        coords = map (addPoint p) [(0,1), (0,-1) , (-1,0), (1,0)]
-        f_coords = filter (\np-> Map.member np m_grid) coords
+        (ps:ff:_) = splitOn " -> " ls
+        a = (head ps)
+        b = (head (drop 1 ps))
+        t = (head ff)
 
-getNeighbors::Point->Map.Map Point Int->[Int]
-getNeighbors p m_grid  = m_values
+insertPairListMap::[(Char,Char,Char)] -> Map.Map (Char,Char) Char -> Map.Map (Char,Char) Char
+insertPairListMap [] m = m
+insertPairListMap ((a,b,t):xs) m = insertPairListMap xs (Map.insert (a,b) t m)
+
+expandPairs:: (Char,Char) -> Map.Map (Char,Char) Char -> [Char]
+expandPairs (a,b) m = [a,(getM mb)]
     where
-        coords = map (addPoint p) [(0,1), (0,-1) , (-1,0), (1,0)]
-        f_coords = filter (\np-> Map.member np m_grid) coords
-        m_values = catMaybes $ map (\np->Map.lookup np m_grid) f_coords
+        mb = Map.lookup (a,b) m
+        getM Nothing = ' '
+        getM (Just t) = t
 
-getLowValue::Point -> Map.Map Point Int -> [Int]
-getLowValue p m_grid = r
-    where   
-        n_values = getNeighbors p m_grid
-        Just my_val =  Map.lookup p m_grid
-        r = if (all (> my_val) n_values) then [my_val] else []
+insertChems::[(Char,Char)]->Map.Map (Char, Char) Char -> [Char]
+insertChems pair_list c_map = (concatMap (\p->expandPairs p c_map) pair_list) ++ (lastLet pair_list)
 
+lastLet::[(Char,Char)]->[Char]
+lastLet pair_list = [ snd $ head (reverse pair_list) ]
 
-
---       let b_set2@(n_basin2,n_visited_set2,n_work_list2) = growBasin m_grid n_basin  n_visited_set n_work_list
-   
---growBasin::Point->Map.Map Point Int->Set.Set Point->Set.Set Point->[Point]->Set.Set Point
-growBasin grid basin_set visited_set  [] = basin_set
-growBasin grid basin_set visited_set (pnt:p_rest) = growBasin grid n_basin n_visited_set work_list
+makePairList::[Char]->[(Char,Char)]
+makePairList ls = makePairList' ls []
     where
-        n_visited_set = Set.insert pnt visited_set
-        neigh_points::[Point]
-        neigh_points = filter (\p->Set.notMember p n_visited_set )  (getNeighborPoints pnt grid) 
-        (n_basin,work_list) = if (pointToValue grid pnt) /= 9 
-                                then (Set.insert pnt basin_set, p_rest++neigh_points) 
-                                else (basin_set,p_rest)
-        
-        
-empty_point_set::Set.Set Point
-empty_point_set = Set.empty
+        makePairList' [] acc = reverse acc
+        makePairList' (x:[]) acc =reverse acc
+        makePairList' (x:y:xs) acc = makePairList' (y:xs) ((x,y):acc)
 
-pointToValue::Map.Map Point Int->Point->Int
-pointToValue grid point = my_val
+
+stepExpand::[Char]-> Map.Map (Char,Char) Char -> Int -> [Char]
+stepExpand p_list _ 0 = p_list
+stepExpand p_list c_map n = stepExpand (insertChems (makePairList p_list) c_map) c_map (n-1)
+
+stepOCExpand::MultiSet.MultiSet (Char,Char) -> Map.Map (Char, Char) Char -> Int -> MultiSet.MultiSet (Char, Char)
+stepOCExpand m_set _ 0 = m_set
+stepOCExpand m_set c_map n =  stepOCExpand (next_mset ) c_map (n-1)
     where
-        Just my_val = Map.lookup point grid
+        ol = MultiSet.toOccurList m_set
+        n_ol= concatMap (\o->expandOccurs o c_map) ol
+        next_mset = MultiSet.fromOccurList n_ol
 
+expandOccurs :: ((Char,Char),Int) -> Map.Map (Char,Char) Char -> [((Char,Char),Int)]
+expandOccurs ((a,b),n) m = [((a,c),n),((c,b),n)]
+    where
+        getM Nothing = ' '
+        getM (Just t) = t
+        c = getM (Map.lookup (a,b) m)
+
+
+expandPair:: (Char, Char) -> Map.Map (Char, Char) Char -> [(Char,Char)]
+expandPair (a,b) c_map = [(a,c), (c,b)]
+    where
+        m_lookup = Map.lookup (a,b) c_map
+        getM Nothing = ' '
+        getM (Just t) = t
+        c = getM m_lookup
+
+makeMSPairs::[(Char,Char)] -> MultiSet.MultiSet (Char,Char)
+makeMSPairs ss = MultiSet.fromList ss
+
+parseAll::[[Char]]->([Char], Map.Map (Char, Char) Char)
+parseAll vals1 = (template, c_map)
+    where
+        (template_string,eq_strings) = splitEmptyLine vals1
+        template = head template_string
+        c_list = map parseEqs eq_strings
+        c_map = insertPairListMap c_list Map.empty
+
+main :: IO()
 main = do 
-            printf "Advent of Code 2021, Day 9:\n"
+            printf "Advent of Code 2021, Day 14:\n"
             vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_input
             printf "    read %d lines of input\n" (length vals2)
 
-            --let answer1 = part1 vals1
-            --printf "\n   Part 1    Solution: %d \n" answer1         
+            let (template1, c_map1) = parseAll vals1
+            let answer1 = part1 template1 c_map1 10
+            printf "\n   Part 1    Solution: %d \n" answer1         
 
-            let m_grid = initMapGrid vals2
-            let l_points = getLowPoints m_grid
-            
-            let x_width = length (head vals2)
-            let y_width = length vals2
-            let tot = x_width * y_width
-
-            --print l_points
-            let bpnt = head l_points
-
-            let nine_count = length $ filter (\p->(pointToValue m_grid p) == 9) (Map.keys m_grid)
-            printf "\n Of %d total grid points, %d are nines leaving %d\n" tot nine_count (tot-nine_count)
---(n_basin,n_visited_set,p_rest,neigh_points)
-            
-            --let b_set0 = growBasin m_grid (Set.singleton bpnt) empty_point_set [bpnt]  
-           -- print b_set0            
-            let basins = map (\lp->growBasin m_grid (Set.singleton lp) empty_point_set [lp]) l_points
-            let basin_sizes =  take 3 $ reverse $ sort (map length basins)
-            print basin_sizes
-            
-            
-            
-            
-            let answer2 = product basin_sizes
+            let (template2,c_map2) = parseAll vals2
+            let answer2 = part2 template2 c_map2
             printf "\n   Part 2    Solution: %d \n" answer2
-          
 
-            printf "\n             done             \n"
+
 

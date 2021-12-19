@@ -7,6 +7,15 @@ main = do
     putStrLn solpart1
     putStrLn solpart2
 
+
+printPoints::Map.Map Point Int -> Int -> Int -> IO ()
+printPoints g_map x_w y_w = putStr (concatMap (\s->s ++ ['\n']) lls)
+    where 
+        pl = Map.toList g_map
+        l1 is_y =concatMap show $ map (\(Point _ _,v)-> v) $  (filter (\(Point x y,v)-> (y == is_y)) pl)
+        lls =  map (\y->l1 y) [1..y_w]
+
+
 set_sum::IntSet.IntSet->Int
 set_sum iset = sum (IntSet.toList iset)
 -- Set colors and write some text in those colors.
