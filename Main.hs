@@ -15,7 +15,7 @@ import qualified Data.MultiSet as MultiSet
 -- Advent of Code 2021
 -- Day 9
 --  part 1 solution: 436
---  part 2 solution: 
+--  part 2 solution: 1317792
 
 part_1_test::[Char]
 part_1_test = "day9/aoc_09_test_1.txt"
@@ -122,10 +122,13 @@ getLowValue p m_grid = r
         Just my_val =  Map.lookup p m_grid
         r = if (all (> my_val) n_values) then [my_val] else []
 
+
+
+--       let b_set2@(n_basin2,n_visited_set2,n_work_list2) = growBasin m_grid n_basin  n_visited_set n_work_list
+   
 --growBasin::Point->Map.Map Point Int->Set.Set Point->Set.Set Point->[Point]->Set.Set Point
---growBasin grid basin_set _  [] = basin_set
---growBasin grid basin_set visited_set (pnt:p_rest)  = growBasin grid n_basin n_visited_set (p_rest ++ neigh_points)
-growBasin grid basin_set visited_set (pnt:p_rest) = (n_basin,n_visited_set,work_list)
+growBasin grid basin_set visited_set  [] = basin_set
+growBasin grid basin_set visited_set (pnt:p_rest) = growBasin grid n_basin n_visited_set work_list
     where
         n_visited_set = Set.insert pnt visited_set
         neigh_points::[Point]
@@ -147,7 +150,7 @@ main = do
             printf "Advent of Code 2021, Day 9:\n"
             vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_test
+            vals2 <- getStringVals part_2_input
             printf "    read %d lines of input\n" (length vals2)
 
             --let answer1 = part1 vals1
@@ -160,30 +163,25 @@ main = do
             let y_width = length vals2
             let tot = x_width * y_width
 
-            print l_points
+            --print l_points
             let bpnt = head l_points
 
             let nine_count = length $ filter (\p->(pointToValue m_grid p) == 9) (Map.keys m_grid)
             printf "\n Of %d total grid points, %d are nines leaving %d\n" tot nine_count (tot-nine_count)
 --(n_basin,n_visited_set,p_rest,neigh_points)
             
+            --let b_set0 = growBasin m_grid (Set.singleton bpnt) empty_point_set [bpnt]  
+           -- print b_set0            
+            let basins = map (\lp->growBasin m_grid (Set.singleton lp) empty_point_set [lp]) l_points
+            let basin_sizes =  take 3 $ reverse $ sort (map length basins)
+            print basin_sizes
             
             
-            printf "pre_grow_basin: %s, %s, %s \n" (show ( Set.singleton bpnt)) (show empty_point_set) (show [bpnt])
-            let b_set@(n_basin,n_visited_set,n_work_list) = growBasin m_grid (Set.singleton bpnt) empty_point_set [bpnt]
-            print b_set
-            --let b_set_list = map (\pnt->growBasin m_grid (Set.singleton pnt) Set.empty [pnt]) l_points
-            --print b_set_list
-           -- print (map Set.size b_set_list)
-            --let answer2 = part2 
-            --printf "\n   Part 2    Solution: %d \n" answer2
+            
+            
+            let answer2 = product basin_sizes
+            printf "\n   Part 2    Solution: %d \n" answer2
           
-
-            let b_set2@(n_basin2,n_visited_set2,n_work_list2) = growBasin m_grid n_basin  n_visited_set n_work_list
-            print b_set2
-
-            let b_set3@(n_basin3,n_visited_set3,n_work_list3) = growBasin m_grid n_basin2  n_visited_set2 n_work_list2
-            print b_set3
 
             printf "\n             done             \n"
 
