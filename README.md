@@ -21,9 +21,13 @@
 | [Day 16: Packet Decoder](https://adventofcode.com/2021/day/16)  |Bitwise-Parsing  | _   | _ |
 | [Day 17: Trick Shot](https://adventofcode.com/2021/day/17)  | Ballistic Calcution | *   | _ |
 | [Day 18: Snailfish](https://adventofcode.com/2021/day/18)  | List Manipulation | _   | _ |
-| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
-| [](https://adventofcode.com/2021/day/)  |  | _   | _ |
-
+| [Day 19: Beacon Scanner](https://adventofcode.com/2021/day/19)  | Combining 3D Puzzle Pieces | _   | _ |
+| [Day 20: Trench Map](https://adventofcode.com/2021/day/20)  | Image Convolution | _   | _ |
+| [](https://adventofcode.com/2021/day/21)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/22)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/23)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/24)  |  | _   | _ |
+| [](https://adventofcode.com/2021/day/25)  |  | _   | _ |
 
 
 Learning Haskell as I go, so pardon the ugly code and style.
