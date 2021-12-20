@@ -11,6 +11,17 @@
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 #endif /* MIN_VERSION_Cabal_example */
 
+/* package array-0.5.3.0 */
+#ifndef VERSION_array
+#define VERSION_array "0.5.3.0"
+#endif /* VERSION_array */
+#ifndef MIN_VERSION_array
+#define MIN_VERSION_array(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  5 || \
+  (major1) == 0 && (major2) == 5 && (minor) <= 3)
+#endif /* MIN_VERSION_array */
+
 /* package base-4.12.0.0 */
 #ifndef VERSION_base
 #define VERSION_base "4.12.0.0"
@@ -32,6 +43,28 @@
   (major1) == 0 && (major2) <  6 || \
   (major1) == 0 && (major2) == 6 && (minor) <= 0)
 #endif /* MIN_VERSION_containers */
+
+/* package ilist-0.4.0.1 */
+#ifndef VERSION_ilist
+#define VERSION_ilist "0.4.0.1"
+#endif /* VERSION_ilist */
+#ifndef MIN_VERSION_ilist
+#define MIN_VERSION_ilist(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  4 || \
+  (major1) == 0 && (major2) == 4 && (minor) <= 0)
+#endif /* MIN_VERSION_ilist */
+
+/* package massiv-1.0.1.1 */
+#ifndef VERSION_massiv
+#define VERSION_massiv "1.0.1.1"
+#endif /* VERSION_massiv */
+#ifndef MIN_VERSION_massiv
+#define MIN_VERSION_massiv(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  0 || \
+  (major1) == 1 && (major2) == 0 && (minor) <= 1)
+#endif /* MIN_VERSION_massiv */
 
 /* package multiset-0.3.4.3 */
 #ifndef VERSION_multiset

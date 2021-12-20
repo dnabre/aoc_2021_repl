@@ -1,14 +1,12 @@
 {-# LANGUAGE TypeApplications #-}
 
 module Main where
-import System.Environment
-import System.Exit
 import Text.Printf
 import Data.List.Split
-import Data.List
-import Data.Char
-import Data.Massiv.Array
-import Data.Massiv.Array.Stencil
+
+import Data.Array.Repa.Vector as R
+import qualified Data.Vector.Unboxed as U
+import Data.Array.Repa.Algorithms.Convole
 
 
 -- Advent of Code 2021
@@ -44,11 +42,18 @@ string2int = r
 rowString2list :: [Char] -> [Int]
 rowString2list xs = map string2int (filter (\x->x /= "") $ splitOn " " xs)
 
+rowHashtoInt xs = map (\c-> if (c=='#') then 0 else 1) xs
+
 splitEmptyLine::[[Char]]->([[Char]],[[Char]])
 splitEmptyLine ls = splitEmptyLine' ls []
     where
         splitEmptyLine' ("":xs) p =  (reverse p,xs)
         splitEmptyLine' (x:xs) p = splitEmptyLine' xs (x:p)
+
+
+
+
+
 
 
 main :: IO()
@@ -59,10 +64,28 @@ main = do
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
 
-           
+            (a : _ : xs) <- lines <$> readFile part_1_test
+            let width = length ( head xs)
+            let height = length xs
+
+            print a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             --let answer1 = 0
             --printf "\n   Part 1    Solution: %d \n" answer1         
-
             
             --let answer2 = part2 
             --printf "\n   Part 2    Solution: %d \n" answer2
