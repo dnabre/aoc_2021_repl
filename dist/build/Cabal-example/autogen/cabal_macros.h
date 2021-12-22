@@ -55,6 +55,17 @@
   (major1) == 0 && (major2) == 3 && (minor) <= 4)
 #endif /* MIN_VERSION_multiset */
 
+/* package range-set-list-0.1.3.1 */
+#ifndef VERSION_range_set_list
+#define VERSION_range_set_list "0.1.3.1"
+#endif /* VERSION_range_set_list */
+#ifndef MIN_VERSION_range_set_list
+#define MIN_VERSION_range_set_list(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 3)
+#endif /* MIN_VERSION_range_set_list */
+
 /* package split-0.2.3.4 */
 #ifndef VERSION_split
 #define VERSION_split "0.2.3.4"
@@ -76,6 +87,17 @@
   (major1) == 1 && (major2) <  0 || \
   (major1) == 1 && (major2) == 0 && (minor) <= 1)
 #endif /* MIN_VERSION_titlecase */
+
+/* package vector-0.12.3.1 */
+#ifndef VERSION_vector
+#define VERSION_vector "0.12.3.1"
+#endif /* VERSION_vector */
+#ifndef MIN_VERSION_vector
+#define MIN_VERSION_vector(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  12 || \
+  (major1) == 0 && (major2) == 12 && (minor) <= 3)
+#endif /* MIN_VERSION_vector */
 
 /* tool gcc-6.3.0 */
 #ifndef TOOL_VERSION_gcc

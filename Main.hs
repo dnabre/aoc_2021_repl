@@ -9,7 +9,7 @@ import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 import qualified Data.Map as Map
 import qualified Data.MultiSet as MultiSet
-
+import qualified Data.RangeSet.List as RSet
 
 -- Advent of Code 2021
 -- Day 2
@@ -25,7 +25,29 @@ part_1_input = "day22/aoc_22_part_1.txt"
 part_2_input::[Char]
 part_2_input = "day22/aoc_22_part_2.txt"
 
-data ZPoint = ZPoint !Int !Int !Int deriving (Show,Eq,Ord)
+data ZPoint = ZPoint Int Int Int deriving (Show,Eq,Ord,Bounded)
+
+zPointToInt (ZPoint x y z) = x + (y * vMax) + (z * vMax * vMax)
+
+intToZPoint i = ZPoint x y z
+    where
+        x = mod i vMax
+        y = mod ( div i  vMax )  vMax
+        z = i `div` ( vMax * vMax )
+
+instance  Enum ZPoint where  
+    succ zp = intToZPoint ((zPointToInt zp) + 1 )
+    pred zp = intToZPoint ((zPointToInt zp) -1)
+    toEnum  = intToZPoint
+    fromEnum  = zPointToInt
+    
+
+
+vMax::Int
+vMax = 1000000
+vMin::Int
+vMin = 1000000
+
 
 (x_min,x_max) = (-50,50)
 (y_min,y_max) = (-50,50)
@@ -79,13 +101,20 @@ process (x:xs) on_set = process xs next_on
     where
         (turn_on,(leftp,rightp)) = x
         next_on = if turn_on
-                    then Set.union on_set (Set.fromList $ pointRange leftp rightp)
-                    else Set.difference on_set (Set.fromList $ pointRange leftp rightp)      
+                    then RSet.insertRange (leftp,rightp) on_set
+                    else RSet.deleteRange (leftp,rightp) on_set
+
+
+nn pl = concatMap (\(ZPoint x y z)-> [x,y,z]) f_pair
+    where      
+        r_pair = map snd pl
+        f_pair = concatMap (\(a,b)->[a,b]) r_pair
+      
 
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 22:\n"
-            vals1 <- getStringVals part_1_input
+            vals1 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals2)
@@ -94,9 +123,10 @@ main = do
             let rs = filter (not . outside ) $ map snd pl
             let ls = zip (map fst pl) rs
             
-            let result = process ls Set.empty
-            --print result
-            print (Set.size result)
+
+            let result = process ls RSet.empty
+            print result
+            print (RSet.size result)
             
 
 

@@ -1,0 +1,10 @@
+cabal: Entering directory '/tmp/cabal-tmp-60/range-set-list-0.1.3.1'
+Configuring range-set-list-0.1.3.1...
+Preprocessing library for range-set-list-0.1.3.1..
+Building library for range-set-list-0.1.3.1..
+[1 of 4] Compiling Data.RangeSet.Internal ( src/Data/RangeSet/Internal.hs, dist/dist-sandbox-11ecf6a4/build/Data/RangeSet/Internal.o )
+[2 of 4] Compiling Data.RangeSet.List ( src/Data/RangeSet/List.hs, dist/dist-sandbox-11ecf6a4/build/Data/RangeSet/List.o )
+[3 of 4] Compiling Data.RangeSet.IntMap ( src/Data/RangeSet/IntMap.hs, dist/dist-sandbox-11ecf6a4/build/Data/RangeSet/IntMap.o )
+[4 of 4] Compiling Data.RangeSet.Map ( src/Data/RangeSet/Map.hs, dist/dist-sandbox-11ecf6a4/build/Data/RangeSet/Map.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/range-set-list-0.1.3.1-F1b0GaskTw45hpu33lkECN
+cabal: Leaving directory '/tmp/cabal-tmp-60/range-set-list-0.1.3.1'

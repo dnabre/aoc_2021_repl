@@ -66,6 +66,8 @@ executable Cabal-example
                     , containers
                     , multiset                    
                     , kdt
+                    , range-set-list
+                    , vector
 
 
  
