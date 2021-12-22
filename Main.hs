@@ -9,7 +9,7 @@ import qualified Data.IntSet as IntSet
 import qualified Data.Set as Set
 import qualified Data.Map as Map
 import qualified Data.MultiSet as MultiSet
-import qualified Data.RangeSet.List as RSet
+
 
 -- Advent of Code 2021
 -- Day 2
@@ -27,31 +27,24 @@ part_2_input = "day22/aoc_22_part_2.txt"
 
 data ZPoint = ZPoint Int Int Int deriving (Show,Eq,Ord,Bounded)
 
-zPointToInt (ZPoint x y z) = x + (y * vMax) + (z * vMax * vMax)
+data ZRange = ZRange ZPoint ZPoint deriving (Show,Eq,Ord,Bounded)
 
-intToZPoint i = ZPoint x y z
-    where
-        x = mod i vMax
-        y = mod ( div i  vMax )  vMax
-        z = i `div` ( vMax * vMax )
+vMaxPoint = ZPoint vMax vMax vMax
+vMinPoint = ZPoint vMin vMin vMin
 
-instance  Enum ZPoint where  
-    succ zp = intToZPoint ((zPointToInt zp) + 1 )
-    pred zp = intToZPoint ((zPointToInt zp) -1)
-    toEnum  = intToZPoint
-    fromEnum  = zPointToInt
-    
-
+vWindow = ZRange vMinPoint vMaxPoint
 
 vMax::Int
 vMax = 1000000
 vMin::Int
-vMin = 1000000
+vMin = -1000000
 
 
-(x_min,x_max) = (-50,50)
-(y_min,y_max) = (-50,50)
-(z_min,z_max) = (-50,50)
+
+
+(x_min,x_max) = (-51,51)
+(y_min,y_max) = (-51,51)
+(z_min,z_max) = (-51,51)
 
 (p_min,p_max) = (ZPoint x_min y_min z_min, ZPoint x_max y_max z_max)
 
@@ -76,6 +69,13 @@ splitEmptyLine ls = splitEmptyLine' ls []
         splitEmptyLine' ("":xs) p =  (reverse p,xs)
         splitEmptyLine' (x:xs) p = splitEmptyLine' xs (x:p)
 
+checkRange ((ZPoint lx ly lz) ,(ZPoint rx ry rz)) = cx && cy && cz
+    where 
+        cx = lx < rx
+        cy = ly < ry
+        cz = lz < rz
+
+
 parseLine ls = (on_off,(pFrom,pTo))
     where
         ws = words ls
@@ -84,9 +84,9 @@ parseLine ls = (on_off,(pFrom,pTo))
         hunks =map (drop 2) $ splitOn "," raw_range
         phunks = map (splitOn "..") hunks
         rr@[[xl,xr],[yl,yr],[zl,zr]] = map (map string2int) phunks    
-        (pFrom,pTo) = (ZPoint xl yl zl,ZPoint xr yr zr)
+        (pFrom,pTo) = (ZPoint (xl-1) (yl) (zl),ZPoint (xr+1) (yr+1) (zr+1))
 
-outside (a, b)  = ( (a < p_min)  && (b < p_min)  || (a > p_max ) && (b > p_max))
+outside (a, b)  = ( (a < p_min )  && (b < p_min )  || (a > p_max  ) && (b > p_max ))
 
 
 clamp ((ZPoint xl yl zl), (ZPoint xr yr zr)) = (left,right)
@@ -94,8 +94,10 @@ clamp ((ZPoint xl yl zl), (ZPoint xr yr zr)) = (left,right)
         left = ZPoint (max x_min xl) (max y_min yl) (max z_min zl )
         right = ZPoint (min x_max xr) (min y_max yr) (min z_max zr )
 
-pointRange  (ZPoint xl yl zl) (ZPoint xr yr zr) = [ZPoint x y z |x<-[xl..xr],y<-[yl..yr],z<-[zl..zr]]       
+pointRange  (ZPoint xl yl zl) (ZPoint xr yr zr) = [ZPoint x y z |x<-[xl-1..xr+1],y<-[yl-1..yr+1],z<-[zl-1..zr]]       
 
+{-
+process::[(Bool,(ZPoint,ZPoint))] -> RSet.RSet ZPoint -> RSet.RSet ZPoint
 process [] on_set = on_set
 process (x:xs) on_set = process xs next_on
     where
@@ -103,7 +105,7 @@ process (x:xs) on_set = process xs next_on
         next_on = if turn_on
                     then RSet.insertRange (leftp,rightp) on_set
                     else RSet.deleteRange (leftp,rightp) on_set
-
+-}
 
 nn pl = concatMap (\(ZPoint x y z)-> [x,y,z]) f_pair
     where      
@@ -114,19 +116,19 @@ nn pl = concatMap (\(ZPoint x y z)-> [x,y,z]) f_pair
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 22:\n"
-            vals1 <- getStringVals part_2_test
+            vals1 <- getStringVals part_1_test
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_1_input
+            vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
 
             let pl = map parseLine vals1
             let rs = filter (not . outside ) $ map snd pl
-            let ls = zip (map fst pl) rs
+            print rs
+
+    
             
 
-            let result = process ls RSet.empty
-            print result
-            print (RSet.size result)
+
             
 
 

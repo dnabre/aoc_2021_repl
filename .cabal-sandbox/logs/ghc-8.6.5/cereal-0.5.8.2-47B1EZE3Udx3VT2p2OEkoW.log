@@ -1,9 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-878/cereal-0.5.8.2'
-Configuring cereal-0.5.8.2...
-Preprocessing library for cereal-0.5.8.2..
-Building library for cereal-0.5.8.2..
-[1 of 4] Compiling Data.Serialize.Get ( src/Data/Serialize/Get.hs, dist/dist-sandbox-11ecf6a4/build/Data/Serialize/Get.o )
-[2 of 4] Compiling Data.Serialize.Put ( src/Data/Serialize/Put.hs, dist/dist-sandbox-11ecf6a4/build/Data/Serialize/Put.o )
-[3 of 4] Compiling Data.Serialize.IEEE754 ( src/Data/Serialize/IEEE754.hs, dist/dist-sandbox-11ecf6a4/build/Data/Serialize/IEEE754.o )
-[4 of 4] Compiling Data.Serialize   ( src/Data/Serialize.hs, dist/dist-sandbox-11ecf6a4/build/Data/Serialize.o )
-cabal: Leaving directory '/tmp/cabal-tmp-878/cereal-0.5.8.2'

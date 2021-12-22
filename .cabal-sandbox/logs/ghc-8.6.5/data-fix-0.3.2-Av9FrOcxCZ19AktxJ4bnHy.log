@@ -1,7 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-873/data-fix-0.3.2'
-Configuring data-fix-0.3.2...
-Preprocessing library for data-fix-0.3.2..
-Building library for data-fix-0.3.2..
-[1 of 1] Compiling Data.Fix         ( src/Data/Fix.hs, dist/dist-sandbox-11ecf6a4/build/Data/Fix.o )
-Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/data-fix-0.3.2-Av9FrOcxCZ19AktxJ4bnHy
-cabal: Leaving directory '/tmp/cabal-tmp-873/data-fix-0.3.2'

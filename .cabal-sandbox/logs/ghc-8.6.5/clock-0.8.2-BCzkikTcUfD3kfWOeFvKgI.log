@@ -1,7 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-777/clock-0.8.2'
-Configuring clock-0.8.2...
-Preprocessing library for clock-0.8.2..
-Building library for clock-0.8.2..
-[1 of 1] Compiling System.Clock     ( dist/dist-sandbox-11ecf6a4/build/System/Clock.hs, dist/dist-sandbox-11ecf6a4/build/System/Clock.o )
-Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/clock-0.8.2-BCzkikTcUfD3kfWOeFvKgI
-cabal: Leaving directory '/tmp/cabal-tmp-777/clock-0.8.2'

@@ -1,9 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-778/pvar-1.0.0.0'
-Configuring pvar-1.0.0.0...
-Preprocessing library for pvar-1.0.0.0..
-Building library for pvar-1.0.0.0..
-[1 of 3] Compiling Data.Primitive.PVar.Internal ( src/Data/Primitive/PVar/Internal.hs, dist/dist-sandbox-11ecf6a4/build/Data/Primitive/PVar/Internal.o )
-[2 of 3] Compiling Data.Primitive.PVar.Unsafe ( src/Data/Primitive/PVar/Unsafe.hs, dist/dist-sandbox-11ecf6a4/build/Data/Primitive/PVar/Unsafe.o )
-[3 of 3] Compiling Data.Primitive.PVar ( src/Data/Primitive/PVar.hs, dist/dist-sandbox-11ecf6a4/build/Data/Primitive/PVar.o )
-Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/pvar-1.0.0.0-7fJL79oKgnK2V9OrKZPS2E
-cabal: Leaving directory '/tmp/cabal-tmp-778/pvar-1.0.0.0'

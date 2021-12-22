@@ -60,14 +60,11 @@ executable Cabal-example
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-    build-depends:      base        >= 4.12
-                    , titlecase
+    build-depends:      base        
                     , split
                     , containers
                     , multiset                    
-                    , kdt
-                    , range-set-list
-                    , vector
+
 
 
  

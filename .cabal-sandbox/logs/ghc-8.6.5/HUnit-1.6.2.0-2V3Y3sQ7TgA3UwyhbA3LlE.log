@@ -1,4 +1,4 @@
-cabal: Entering directory '/tmp/cabal-tmp-776/HUnit-1.6.2.0'
+cabal: Entering directory '/tmp/cabal-tmp-369/HUnit-1.6.2.0'
 Configuring HUnit-1.6.2.0...
 Preprocessing library for HUnit-1.6.2.0..
 Building library for HUnit-1.6.2.0..
@@ -9,4 +9,4 @@ Building library for HUnit-1.6.2.0..
 [5 of 6] Compiling Test.HUnit.Text  ( src/Test/HUnit/Text.hs, dist/dist-sandbox-11ecf6a4/build/Test/HUnit/Text.o )
 [6 of 6] Compiling Test.HUnit       ( src/Test/HUnit.hs, dist/dist-sandbox-11ecf6a4/build/Test/HUnit.o )
 Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/HUnit-1.6.2.0-2V3Y3sQ7TgA3UwyhbA3LlE
-cabal: Leaving directory '/tmp/cabal-tmp-776/HUnit-1.6.2.0'
+cabal: Leaving directory '/tmp/cabal-tmp-369/HUnit-1.6.2.0'

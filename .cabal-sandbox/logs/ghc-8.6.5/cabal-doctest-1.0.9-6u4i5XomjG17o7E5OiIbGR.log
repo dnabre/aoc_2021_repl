@@ -1,7 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-875/cabal-doctest-1.0.9'
-Configuring cabal-doctest-1.0.9...
-Preprocessing library for cabal-doctest-1.0.9..
-Building library for cabal-doctest-1.0.9..
-[1 of 1] Compiling Distribution.Extra.Doctest ( src/Distribution/Extra/Doctest.hs, dist/dist-sandbox-11ecf6a4/build/Distribution/Extra/Doctest.o )
-Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/cabal-doctest-1.0.9-6u4i5XomjG17o7E5OiIbGR
-cabal: Leaving directory '/tmp/cabal-tmp-875/cabal-doctest-1.0.9'
