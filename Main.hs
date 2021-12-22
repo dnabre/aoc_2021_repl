@@ -29,22 +29,43 @@ data ZPoint = ZPoint Int Int Int deriving (Show,Eq,Ord,Bounded)
 
 data ZRange = ZRange ZPoint ZPoint deriving (Show,Eq,Ord,Bounded)
 
-vMaxPoint = ZPoint vMax vMax vMax
-vMinPoint = ZPoint vMin vMin vMin
 
-vWindow = ZRange vMinPoint vMaxPoint
 
-vMax::Int
-vMax = 1000000
-vMin::Int
-vMin = -1000000
+newtype Span = Span (Int,Int) deriving (Eq,Show,Ord)
+
+data CubeRange = CubeRange {spanX::Span, spanY::Span, spanZ::Span} deriving (Eq,Ord,Show)
 
 
 
+intersectSpan w@(Span (l1,l2)) v@(Span (r1,r2) ) 
+    | (l2 > r1)  = intersectS v w
+    | (l2 < r1)  = Nothing
+    | (l2 == r1) = Nothing
+    | (l1==r1)   = Just $ Span ((min l1 r1), (min l2 r2))
+    | (l1 < r1)  = Just $ Span ((max l1 l2), (min r1 r2))
+    | (l2 < r2)  = Just $ Span ((max l1 r1), (min l2 r2))
+    | (l2 == r2) = Just $ Span ((max l1 r2), (min l2 r2))
 
-(x_min,x_max) = (-51,51)
-(y_min,y_max) = (-51,51)
-(z_min,z_max) = (-51,51)
+intersectCubeRange (CubeRange x1 y1 z1) (CubeRange x2 y2 z2) =
+    do  
+        xpart <- intersectSpan x1 x2
+        ypart <- intersectSpan y1 y2
+        zpart <- intersectSpan z2 z2
+        return (CubeRange xpart ypart zpart)
+
+    
+
+
+        
+
+        
+
+
+
+
+(x_min,x_max) = (-50,50)
+(y_min,y_max) = (-50,50)
+(z_min,z_max) = (-50,50)
 
 (p_min,p_max) = (ZPoint x_min y_min z_min, ZPoint x_max y_max z_max)
 
