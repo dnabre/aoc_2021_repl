@@ -44,16 +44,16 @@
   (major1) == 0 && (major2) == 6 && (minor) <= 0)
 #endif /* MIN_VERSION_containers */
 
-/* package ilist-0.4.0.1 */
-#ifndef VERSION_ilist
-#define VERSION_ilist "0.4.0.1"
-#endif /* VERSION_ilist */
-#ifndef MIN_VERSION_ilist
-#define MIN_VERSION_ilist(major1,major2,minor) (\
+/* package kdt-0.2.4 */
+#ifndef VERSION_kdt
+#define VERSION_kdt "0.2.4"
+#endif /* VERSION_kdt */
+#ifndef MIN_VERSION_kdt
+#define MIN_VERSION_kdt(major1,major2,minor) (\
   (major1) <  0 || \
-  (major1) == 0 && (major2) <  4 || \
-  (major1) == 0 && (major2) == 4 && (minor) <= 0)
-#endif /* MIN_VERSION_ilist */
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 4)
+#endif /* MIN_VERSION_kdt */
 
 /* package massiv-1.0.1.1 */
 #ifndef VERSION_massiv
@@ -77,6 +77,28 @@
   (major1) == 0 && (major2) == 3 && (minor) <= 4)
 #endif /* MIN_VERSION_multiset */
 
+/* package repa-3.4.1.4 */
+#ifndef VERSION_repa
+#define VERSION_repa "3.4.1.4"
+#endif /* VERSION_repa */
+#ifndef MIN_VERSION_repa
+#define MIN_VERSION_repa(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  4 || \
+  (major1) == 3 && (major2) == 4 && (minor) <= 1)
+#endif /* MIN_VERSION_repa */
+
+/* package repa-algorithms-3.4.1.3 */
+#ifndef VERSION_repa_algorithms
+#define VERSION_repa_algorithms "3.4.1.3"
+#endif /* VERSION_repa_algorithms */
+#ifndef MIN_VERSION_repa_algorithms
+#define MIN_VERSION_repa_algorithms(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  4 || \
+  (major1) == 3 && (major2) == 4 && (minor) <= 1)
+#endif /* MIN_VERSION_repa_algorithms */
+
 /* package split-0.2.3.4 */
 #ifndef VERSION_split
 #define VERSION_split "0.2.3.4"
@@ -98,6 +120,17 @@
   (major1) == 1 && (major2) <  0 || \
   (major1) == 1 && (major2) == 0 && (minor) <= 1)
 #endif /* MIN_VERSION_titlecase */
+
+/* package vector-0.12.3.1 */
+#ifndef VERSION_vector
+#define VERSION_vector "0.12.3.1"
+#endif /* VERSION_vector */
+#ifndef MIN_VERSION_vector
+#define MIN_VERSION_vector(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  12 || \
+  (major1) == 0 && (major2) == 12 && (minor) <= 3)
+#endif /* MIN_VERSION_vector */
 
 /* tool gcc-6.3.0 */
 #ifndef TOOL_VERSION_gcc

@@ -1,0 +1,6 @@
+cabal: Entering directory '/tmp/cabal-tmp-879/fixed-vector-1.2.1.0'
+Configuring fixed-vector-1.2.1.0...
+Preprocessing library for fixed-vector-1.2.1.0..
+Building library for fixed-vector-1.2.1.0..
+[1 of 9] Compiling Data.Vector.Fixed.Cont ( Data/Vector/Fixed/Cont.hs, dist/dist-sandbox-11ecf6a4/build/Data/Vector/Fixed/Cont.o )
+cabal: Leaving directory '/tmp/cabal-tmp-879/fixed-vector-1.2.1.0'

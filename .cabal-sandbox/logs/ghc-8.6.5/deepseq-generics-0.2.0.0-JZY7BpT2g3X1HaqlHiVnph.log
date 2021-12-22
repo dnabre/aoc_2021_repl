@@ -1,0 +1,7 @@
+cabal: Entering directory '/tmp/cabal-tmp-874/deepseq-generics-0.2.0.0'
+Configuring deepseq-generics-0.2.0.0...
+Preprocessing library for deepseq-generics-0.2.0.0..
+Building library for deepseq-generics-0.2.0.0..
+[1 of 1] Compiling Control.DeepSeq.Generics ( Control/DeepSeq/Generics.hs, dist/dist-sandbox-11ecf6a4/build/Control/DeepSeq/Generics.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/deepseq-generics-0.2.0.0-JZY7BpT2g3X1HaqlHiVnph
+cabal: Leaving directory '/tmp/cabal-tmp-874/deepseq-generics-0.2.0.0'

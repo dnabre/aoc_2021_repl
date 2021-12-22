@@ -1,0 +1,16 @@
+cabal: Entering directory '/tmp/cabal-tmp-118/repa-algorithms-3.4.1.3'
+Configuring repa-algorithms-3.4.1.3...
+Preprocessing library for repa-algorithms-3.4.1.3..
+Building library for repa-algorithms-3.4.1.3..
+[ 1 of 10] Compiling Data.Array.Repa.Algorithms.ColorRamp ( Data/Array/Repa/Algorithms/ColorRamp.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/ColorRamp.o )
+[ 2 of 10] Compiling Data.Array.Repa.Algorithms.Complex ( Data/Array/Repa/Algorithms/Complex.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/Complex.o )
+[ 3 of 10] Compiling Data.Array.Repa.Algorithms.Convolve ( Data/Array/Repa/Algorithms/Convolve.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/Convolve.o )
+[ 4 of 10] Compiling Data.Array.Repa.Algorithms.DFT.Center ( Data/Array/Repa/Algorithms/DFT/Center.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/DFT/Center.o )
+[ 5 of 10] Compiling Data.Array.Repa.Algorithms.DFT.Roots ( Data/Array/Repa/Algorithms/DFT/Roots.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/DFT/Roots.o )
+[ 6 of 10] Compiling Data.Array.Repa.Algorithms.DFT ( Data/Array/Repa/Algorithms/DFT.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/DFT.o )
+[ 7 of 10] Compiling Data.Array.Repa.Algorithms.FFT ( Data/Array/Repa/Algorithms/FFT.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/FFT.o )
+[ 8 of 10] Compiling Data.Array.Repa.Algorithms.Matrix ( Data/Array/Repa/Algorithms/Matrix.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/Matrix.o )
+[ 9 of 10] Compiling Data.Array.Repa.Algorithms.Pixel ( Data/Array/Repa/Algorithms/Pixel.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/Pixel.o )
+[10 of 10] Compiling Data.Array.Repa.Algorithms.Randomish ( Data/Array/Repa/Algorithms/Randomish.hs, dist/dist-sandbox-11ecf6a4/build/Data/Array/Repa/Algorithms/Randomish.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/repa-algorithms-3.4.1.3-6q9tkfjhQTo9qSEVRXPqnF
+cabal: Leaving directory '/tmp/cabal-tmp-118/repa-algorithms-3.4.1.3'

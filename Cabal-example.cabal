@@ -64,12 +64,13 @@ executable Cabal-example
                     , titlecase
                     , split
                     , containers
-                    , multiset
-                    , hmatrix
-                    , hTensor
+                    , multiset                    
                     , vector
+                    , array
                     , repa
                     , repa-algorithms
+                    , massiv
+                    , kdt
 
 
  

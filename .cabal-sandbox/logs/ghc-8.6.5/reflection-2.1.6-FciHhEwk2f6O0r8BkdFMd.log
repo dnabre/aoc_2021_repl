@@ -1,0 +1,7 @@
+cabal: Entering directory '/tmp/cabal-tmp-876/reflection-2.1.6'
+Configuring reflection-2.1.6...
+Preprocessing library for reflection-2.1.6..
+Building library for reflection-2.1.6..
+[1 of 1] Compiling Data.Reflection  ( fast/Data/Reflection.hs, dist/dist-sandbox-11ecf6a4/build/Data/Reflection.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/reflection-2.1.6-FciHhEwk2f6O0r8BkdFMd
+cabal: Leaving directory '/tmp/cabal-tmp-876/reflection-2.1.6'

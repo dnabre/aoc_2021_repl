@@ -1,0 +1,9 @@
+cabal: Entering directory '/tmp/cabal-tmp-875/fingertree-0.1.4.2'
+Configuring fingertree-0.1.4.2...
+Preprocessing library for fingertree-0.1.4.2..
+Building library for fingertree-0.1.4.2..
+[1 of 3] Compiling Data.FingerTree  ( Data/FingerTree.hs, dist/dist-sandbox-11ecf6a4/build/Data/FingerTree.o )
+[2 of 3] Compiling Data.IntervalMap.FingerTree ( Data/IntervalMap/FingerTree.hs, dist/dist-sandbox-11ecf6a4/build/Data/IntervalMap/FingerTree.o )
+[3 of 3] Compiling Data.PriorityQueue.FingerTree ( Data/PriorityQueue/FingerTree.hs, dist/dist-sandbox-11ecf6a4/build/Data/PriorityQueue/FingerTree.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/fingertree-0.1.4.2-3y9RCeoabqFEsIFOGn6xXZ
+cabal: Leaving directory '/tmp/cabal-tmp-875/fingertree-0.1.4.2'

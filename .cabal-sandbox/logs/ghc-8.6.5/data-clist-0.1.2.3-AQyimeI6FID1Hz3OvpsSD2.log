@@ -1,0 +1,7 @@
+cabal: Entering directory '/tmp/cabal-tmp-879/data-clist-0.1.2.3'
+Configuring data-clist-0.1.2.3...
+Preprocessing library for data-clist-0.1.2.3..
+Building library for data-clist-0.1.2.3..
+[1 of 1] Compiling Data.CircularList ( src/Data/CircularList.hs, dist/dist-sandbox-11ecf6a4/build/Data/CircularList.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/data-clist-0.1.2.3-AQyimeI6FID1Hz3OvpsSD2
+cabal: Leaving directory '/tmp/cabal-tmp-879/data-clist-0.1.2.3'

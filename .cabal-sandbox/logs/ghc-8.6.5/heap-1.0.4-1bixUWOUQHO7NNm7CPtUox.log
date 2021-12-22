@@ -1,0 +1,25 @@
+cabal: Entering directory '/tmp/cabal-tmp-872/heap-1.0.4'
+Configuring heap-1.0.4...
+Preprocessing library for heap-1.0.4..
+Building library for heap-1.0.4..
+[1 of 3] Compiling Data.Heap.Internal ( Data/Heap/Internal.hs, dist/dist-sandbox-11ecf6a4/build/Data/Heap/Internal.o )
+[2 of 3] Compiling Data.Heap.Item   ( Data/Heap/Item.hs, dist/dist-sandbox-11ecf6a4/build/Data/Heap/Item.o )
+
+Data/Heap/Item.hs:100:11: warning: [-Winline-rule-shadowing]
+    Rule "split/merge" may never fire
+      because rule "Class op merge" for `merge' might fire first
+    Probable fix: add phase [n] or [~n] to the competing rule
+    |
+100 | {-# RULES "split/merge" forall x. split (merge x) = x #-}
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Data/Heap/Item.hs:188:11: warning: [-Winline-rule-shadowing]
+    Rule "splitF/split" may never fire
+      because rule "Class op split" for `split' might fire first
+    Probable fix: add phase [n] or [~n] to the competing rule
+    |
+188 | {-# RULES "splitF/split" forall f x. splitF f (split x) = f x #-}
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[3 of 3] Compiling Data.Heap        ( Data/Heap.hs, dist/dist-sandbox-11ecf6a4/build/Data/Heap.o )
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/heap-1.0.4-1bixUWOUQHO7NNm7CPtUox
+cabal: Leaving directory '/tmp/cabal-tmp-872/heap-1.0.4'

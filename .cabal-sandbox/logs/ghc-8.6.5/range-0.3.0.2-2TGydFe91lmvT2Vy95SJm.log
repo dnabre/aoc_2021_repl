@@ -1,0 +1,33 @@
+cabal: Entering directory '/tmp/cabal-tmp-247/range-0.3.0.2'
+Configuring range-0.3.0.2...
+Preprocessing library for range-0.3.0.2..
+Building library for range-0.3.0.2..
+[ 1 of 12] Compiling Data.Range.Data  ( Data/Range/Data.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Data.o )
+[ 2 of 12] Compiling Data.Range.Operators ( Data/Range/Operators.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Operators.o )
+[ 3 of 12] Compiling Data.Range.Util  ( Data/Range/Util.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Util.o )
+[ 4 of 12] Compiling Data.Range.Spans ( Data/Range/Spans.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Spans.o )
+[ 5 of 12] Compiling Data.Range.RangeInternal ( Data/Range/RangeInternal.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/RangeInternal.o )
+
+Data/Range/RangeInternal.hs:63:11: warning:
+    Rule "load/export" ignored
+    User defined rules are disabled under Safe Haskell
+   |
+63 | {-# RULES "load/export" [1] forall x. loadRanges (exportRangeMerge x) = x #-}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 6 of 12] Compiling Data.Range.Algebra.Internal ( Data/Range/Algebra/Internal.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Algebra/Internal.o )
+[ 7 of 12] Compiling Data.Range.Algebra.Range ( Data/Range/Algebra/Range.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Algebra/Range.o )
+[ 8 of 12] Compiling Data.Range.Algebra.Predicate ( Data/Range/Algebra/Predicate.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Algebra/Predicate.o )
+[ 9 of 12] Compiling Data.Range.Algebra ( Data/Range/Algebra.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Algebra.o )
+[10 of 12] Compiling Data.Range       ( Data/Range.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range.o )
+[11 of 12] Compiling Data.Range.Parser ( Data/Range/Parser.hs, dist/dist-sandbox-11ecf6a4/build/Data/Range/Parser.o )
+[12 of 12] Compiling Data.Ranges      ( Data/Ranges.hs, dist/dist-sandbox-11ecf6a4/build/Data/Ranges.o )
+
+Data/Ranges.hs:37:1: warning: [-Wunused-imports]
+    The import of `Data.Semigroup' is redundant
+      except perhaps to import instances from `Data.Semigroup'
+    To import instances alone, use: import Data.Semigroup()
+   |
+37 | import Data.Semigroup
+   | ^^^^^^^^^^^^^^^^^^^^^
+Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/range-0.3.0.2-2TGydFe91lmvT2Vy95SJm
+cabal: Leaving directory '/tmp/cabal-tmp-247/range-0.3.0.2'
