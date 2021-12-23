@@ -1,9 +1,0 @@
-cabal: Entering directory '/tmp/cabal-tmp-369/call-stack-0.4.0'
-Configuring call-stack-0.4.0...
-Preprocessing library for call-stack-0.4.0..
-Building library for call-stack-0.4.0..
-[1 of 3] Compiling Data.SrcLoc      ( src/Data/SrcLoc.hs, dist/dist-sandbox-11ecf6a4/build/Data/SrcLoc.o )
-[2 of 3] Compiling Data.CallStack   ( src/Data/CallStack.hs, dist/dist-sandbox-11ecf6a4/build/Data/CallStack.o )
-[3 of 3] Compiling Paths_call_stack ( dist/dist-sandbox-11ecf6a4/build/autogen/Paths_call_stack.hs, dist/dist-sandbox-11ecf6a4/build/Paths_call_stack.o )
-Installing library in /home/runner/Cabal-Haskell/.cabal-sandbox/lib/x86_64-linux-ghc-8.6.5/call-stack-0.4.0-4B7yRh8mgB9GZzsNspyuNQ
-cabal: Leaving directory '/tmp/cabal-tmp-369/call-stack-0.4.0'

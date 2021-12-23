@@ -63,7 +63,8 @@ executable Cabal-example
     build-depends:      base        
                     , split
                     , containers
-                    , multiset                    
+                    , multiset     
+                    , Stack               
 
 
 
