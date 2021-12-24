@@ -23,10 +23,13 @@ part_2_input = "day24/aoc_24_part_2.txt"
 
 type Data = Int
 
-data Param = Var | D Data deriving (Show,Eq)  
-data Instruction =  Inp Var | Add Var Param | Mul Var Param | Div Var Param 
-    |Mod Var Param |Eql Var Param deriving (Show,Eq)
+data Reg = X | Y | Z | W deriving (Show, Eq)
+data Op = Add | Mul | Div | Mod | Eql deriving (Show, Eq)
 
+data Ins
+  = Inp Reg
+  | Ins Op Reg (Either Reg Data)
+  deriving (Show, Eq)
 
 
 
@@ -68,28 +71,33 @@ getStringVals path = do
                         return  (lines contents)
 
 
-parseVar::[Char]->Var
+
 parseVar "w" = W
 parseVar "x" = X
 parseVar "y" = Y
 parseVar "z" = Z
 
-parseParam::[Char]->Param
-parseParam ps = if isDigit (head ps) then D (string2int ps)  else parseVar ps 
 
-parseLine::[Char]->Instruction
-parseLine ss = if (head ss) == 'i' then parseLine (ss ++ "0") else i 
+parseParam ps = if isDigit (head ps) then Right (string2int ps)  else Left (parseVar ps)
+    where
+        parseVar' "w" = Left W
+        parseVar' "x" = Left X
+        parseVar' "y" = Left Y
+        parseVar' "z" = Left Z
+
+
+parseLine ["inp", var] = Inp (parseVar var)
+parseLine ss = i
     where        
-        [iss,vss,pss] = words ss
+        [iss,vss,pss] =  ss
         vs = parseVar vss
         ps = parseParam pss
         i = case iss of 
-                "inp" -> Inp vs
-                "add" -> Add vs ps
-                "mul" -> Mul vs ps
-                "div" -> Div vs ps
-                "mod" -> Mod vs ps
-                "eql" -> Eql vs ps
+                "add" -> Ins Add vs ps
+                "mul" -> Ins Mul vs ps
+                "div" -> Ins Div vs ps
+                "mod" -> Ins Mod vs ps
+                "eql" -> Ins Eql vs ps
 
 
 main :: IO()
@@ -99,8 +107,8 @@ main = do
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            --print vals1
-            let ins = map parseLine vals1
+            print vals1
+            let ins = map parseLine (map words vals1)
             print ins
 {-      
             let answer1 = vals1
