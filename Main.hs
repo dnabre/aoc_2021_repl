@@ -9,8 +9,11 @@ import Data.Char
 
 -- Advent of Code 2021
 -- Day 24
---  part 1 solution: 
---  part 2 solution: 
+--  part 1 solution: 96929994293996
+--  part 2 solution: 41811761181141
+
+
+
 
 part_1_test::[Char]
 part_1_test = "day24/aoc_24_test_1.txt"
@@ -72,6 +75,9 @@ getStringVals path = do
                         contents <- readFile path
                         return  (lines contents)
 
+getString = do
+                contents <- readFile "day24/aoc_24_part_1.txt"
+                return contents
 
 parseVar::[Char]->Reg
 parseVar "w" = W
@@ -107,7 +113,7 @@ doOp::Op->Data->Data->Data
 doOp Add r p = r+p
 doOp Mul r p = r*p
 doOp Div r p = if ( p==0) then error "divide by zero" else (div r p)
-doOp Mod r p = mod r p
+doOp Mod r p = if (p<0) then error $"mod by negative, mod ("++(show r) ++" " ++(show p) ++ ")" else  mod r p
 doOp Eql r p = if (r == p) then 1 else 0
 
 getParam::(Either Reg Data)->(Data,Data,Data,Data)->Data
@@ -117,9 +123,10 @@ getParam (Left r)   state = getState r state
 initial_state::(Data,Data,Data,Data)
 initial_state = (0,0,0,0)
 
-go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
-go [] input state = state
+--go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
+go [] input state = if input == [] then state else error $ "leftover input: " ++ (show input)
 go ((Inp rn):codes) (input0:input_rest) state = go codes input_rest (setState rn input0 state)
+go ((Inp rn):cs) [] s= error $ "no input to read state: " ++ (show s) ++ " code: " ++ (show cs)
 go ((Ins op rn epr):codes) input state = go codes input nextState
     where 
         reg_value::Data
@@ -132,6 +139,9 @@ go ((Ins op rn epr):codes) input state = go codes input nextState
         result = doOp op reg_value param_value
         nextState::(Data,Data,Data,Data)
         nextState = setState rn result state
+--go c i s = error ("go data invalid: " ++ (show c) ++ " input: " ++ (show i) ++ " state: " ++ (show s) ) 
+
+
 toData::Int->Data
 toData x = x
 toDataList::[Int]->[Data]
@@ -142,24 +152,17 @@ main = do
             printf "Advent of Code 2021, Day 24:\n"
             vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_test
-            printf "    read %d lines of input\n" (length vals2)
+         --   vals2 <- getStringVals part_2_test
+         --   printf "    read %d lines of input\n" (length vals2)
           --  print vals1
             let ins = map parseLine (map words vals1)
-            print ins
-            let input_string = "13579246899999"
+            --print ins
+            let input_string = "96929994293996"
             let input = map digitToInt input_string
             printf "input: %s \n" (show input)
             let result = go ins (toDataList input) initial_state
             printf "state: %s, w=%d x=%d y=%d z=%d \n" (show result) 
-                    (getState W result) (getState X result) (getState Y result) (getState Z result)
-{-      
-            let answer1 = vals1
-            printf "\n   Part 1    Solution: %d \n" answer1         
+                                (getState W result) (getState X result) (getState Y result) (getState Z result)
 
-          
-            let answer2 = part2 vals2
-            printf "\n   Part 2    Solution: %d \n" answer2
--}
             printf "\n\n done\n\n"
 
