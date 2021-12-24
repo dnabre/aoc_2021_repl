@@ -9,8 +9,8 @@ import Data.Char
 
 -- Advent of Code 2021
 -- Day 24
---  part 1 solution: 2657
---  part 2 solution: 2911561572630
+--  part 1 solution: 
+--  part 2 solution: 
 
 part_1_test::[Char]
 part_1_test = "day24/aoc_24_test_1.txt"
@@ -21,26 +21,30 @@ part_1_input = "day24/aoc_24_part_1.txt"
 part_2_input::[Char]
 part_2_input = "day24/aoc_24_part_2.txt"
 
-data Var= VarW| VarX | VarY | VarZ deriving (Show,Eq,Ord,Enum)
-data Instruction =  Inp Var     | 
-                    Add Var Int |
-                    Mul Var Int |
-                    Div Var Int |
-                    Mod Var Int |
-                    Eql Var Int deriving (Show,Eq,Ord,Enum)
+type Data = Int
+
+data Param = Var | D Data deriving (Show,Eq)  
+data Instruction =  Inp Var | Add Var Param | Mul Var Param | Div Var Param 
+    |Mod Var Param |Eql Var Param deriving (Show,Eq)
+
+
+
+
+
+setState W n (w,x,y,z) = (n,x,y,z)
+setState X n (w,x,y,z) = (w,n,y,z)
+setState Y n (w,x,y,z) = (w,x,n,z)
+setState Z n (w,x,y,z) = (w,x,y,n)
+
+
+getState W (w,x,y,z) = w 
+getState X (w,x,y,z) = x
+getState Y (w,x,y,z) = y
+getState Z (w,x,y,z) = z
+
 
 part1 x = undefined
 part2 x = undefined
-
-SetState VarW n (w,x,y,z) = (n,x,y,z)
-SetState VarX n (w,x,y,z) = (w,n,y,z)
-SetState VarU n (w,x,y,z) = (w,x,n,z)
-SetState VarZ n (w,x,y,z) = (w,x,y,n)
-
-GetState VarW (w,x,y,z) = w 
-GetState VarX (w,x,y,z) = x
-GetState VarU (w,x,y,z) = y
-GetState VarZ (w,x,y,z) = z
 
 
 string2int::[Char]->Int               
@@ -58,15 +62,46 @@ splitEmptyLine ls = splitEmptyLine' ls []
         splitEmptyLine' ("":xs) p =  (reverse p,xs)
         splitEmptyLine' (x:xs) p = splitEmptyLine' xs (x:p)
 
+getStringVals::FilePath -> IO [[Char]] 
+getStringVals path = do 
+                        contents <- readFile path
+                        return  (lines contents)
+
+
+parseVar::[Char]->Var
+parseVar "w" = W
+parseVar "x" = X
+parseVar "y" = Y
+parseVar "z" = Z
+
+parseParam::[Char]->Param
+parseParam ps = if isDigit (head ps) then D (string2int ps)  else parseVar ps 
+
+parseLine::[Char]->Instruction
+parseLine ss = if (head ss) == 'i' then parseLine (ss ++ "0") else i 
+    where        
+        [iss,vss,pss] = words ss
+        vs = parseVar vss
+        ps = parseParam pss
+        i = case iss of 
+                "inp" -> Inp vs
+                "add" -> Add vs ps
+                "mul" -> Mul vs ps
+                "div" -> Div vs ps
+                "mod" -> Mod vs ps
+                "eql" -> Eql vs ps
+
+
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 24:\n"
-            vals1 <- getStringVals part_1_input
+            vals1 <- getStringVals part_1_test
             printf "    read %d lines of input\n" (length vals1)
-            vals2 <- getStringVals part_2_input
+            vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            print vals1
-      
+            --print vals1
+            let ins = map parseLine vals1
+            print ins
 {-      
             let answer1 = vals1
             printf "\n   Part 1    Solution: %d \n" answer1         
