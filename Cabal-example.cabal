@@ -64,7 +64,7 @@ executable Cabal-example
                     , split
                     , containers
                     , multiset     
-                    , Stack               
+              
 
 
 
