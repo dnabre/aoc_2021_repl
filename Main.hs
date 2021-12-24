@@ -123,7 +123,7 @@ getParam (Left r)   state = getState r state
 initial_state::(Data,Data,Data,Data)
 initial_state = (0,0,0,0)
 
---go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
+go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
 go [] input state = if input == [] then state else error $ "leftover input: " ++ (show input)
 go ((Inp rn):codes) (input0:input_rest) state = go codes input_rest (setState rn input0 state)
 go ((Inp rn):cs) [] s= error $ "no input to read state: " ++ (show s) ++ " code: " ++ (show cs)
@@ -139,7 +139,6 @@ go ((Ins op rn epr):codes) input state = go codes input nextState
         result = doOp op reg_value param_value
         nextState::(Data,Data,Data,Data)
         nextState = setState rn result state
---go c i s = error ("go data invalid: " ++ (show c) ++ " input: " ++ (show i) ++ " state: " ++ (show s) ) 
 
 
 toData::Int->Data
@@ -158,11 +157,23 @@ main = do
             let ins = map parseLine (map words vals1)
             --print ins
             let input_string = "96929994293996"
+            let input_string_min = "41811761181141"
             let input = map digitToInt input_string
             printf "input: %s \n" (show input)
             let result = go ins (toDataList input) initial_state
-            printf "state: %s, w=%d x=%d y=%d z=%d \n" (show result) 
-                                (getState W result) (getState X result) (getState Y result) (getState Z result)
+            printf "state: %s, w=%d x=%d y=%d z=%d , valid: %s\n" (show result) 
+                                (getState W result) (getState X result) 
+                                (getState Y result) (getState Z result)
+                                (show ((getState Z result) == 0))
+            let input1 = map digitToInt input_string_min
+            printf "input: %s \n" (show input1)
+            let result = go ins (toDataList input1) initial_state
+            printf "state: %s, w=%d x=%d y=%d z=%d , valid: %s\n" (show result) 
+                                (getState W result) (getState X result) 
+                                (getState Y result) (getState Z result)
+                                (show ((getState Z result) == 0))
+
+
 
             printf "\n\n done\n\n"
 
