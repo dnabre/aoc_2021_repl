@@ -78,10 +78,12 @@ parseVar "w" = W
 parseVar "x" = X
 parseVar "y" = Y
 parseVar "z" = Z
+parseVar x = error $ "error parsing register: " ++ (show x)
 
 parseParam::[Char]->Either Reg Data
-parseParam ps = if isDigit (head ps) then Right (string2int ps)  else Left (parseVar ps)
+parseParam ps = if start_is_number then Right (string2int ps)  else Left (parseVar ps)
     where
+        start_is_number = (isDigit (head ps)) || ((head ps) == '-')
         parseVar' "w" = Left W
         parseVar' "x" = Left X
         parseVar' "y" = Left Y
@@ -116,8 +118,8 @@ initial_state::(Data,Data,Data,Data)
 initial_state = (0,0,0,0)
 
 go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
-go [] _ state = state
-go ((Inp rn):codes) (input0:input_rest) state = go codes input_rest (setState rn input0 state) 
+go [] input state = state
+go ((Inp rn):codes) (input0:input_rest) state = go codes input_rest (setState rn input0 state)
 go ((Ins op rn epr):codes) input state = go codes input nextState
     where 
         reg_value::Data
@@ -138,14 +140,16 @@ toDataList ls = map toData ls
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 24:\n"
-            vals1 <- getStringVals part_1_test
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            print vals2
-            let ins = map parseLine (map words vals2)
+          --  print vals1
+            let ins = map parseLine (map words vals1)
             print ins
-            let input = [9]
+            let input_string = "13579246899999"
+            let input = map digitToInt input_string
+            printf "input: %s \n" (show input)
             let result = go ins (toDataList input) initial_state
             printf "state: %s, w=%d x=%d y=%d z=%d \n" (show result) 
                     (getState W result) (getState X result) (getState Y result) (getState Z result)
