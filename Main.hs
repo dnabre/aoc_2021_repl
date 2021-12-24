@@ -113,23 +113,28 @@ getParam (Right x)  state = x
 getParam (Left r)   state = getState r state
 
 initial_state::(Data,Data,Data,Data)
-initial_state = (-1,-1,-1,-1)
+initial_state = (0,0,0,0)
 
+go::[Ins]->[Data]->(Data,Data,Data,Data)->(Data,Data,Data,Data)
+go [] _ state = state
+go ((Inp rn):codes) (input0:input_rest) state = go codes input_rest (setState rn input0 state) 
+go ((Ins op rn epr):codes) input state = go codes input nextState
+    where 
+        reg_value::Data
+        reg_value = getState rn state
+        param_value::Data
+        param_value = case epr of
+                        Left prn -> getState prn state
+                        Right constant -> constant 
+        result::Data
+        result = doOp op reg_value param_value
+        nextState::(Data,Data,Data,Data)
+        nextState = setState rn result state
+toData::Int->Data
+toData x = x
+toDataList::[Int]->[Data]
+toDataList ls = map toData ls
 
-{-
-run [] state _ = state
-run ins_list@(i:is) state input@(inp:ins) = run is nextState nextInput
-    where  
-        (rreg,pp) = case i of
-            Inp rx -> (rx,Right 0)
-            Ins _ rx p -> (rx,p)
-        rv = getState rreg state
-        p = getParam pp state 
-        oop = case i of 
-            Inp _ -> (setState rreg inp, ins)
-            Ins o _ _ -> (setState rreg (doOp o rv p), input) 
-        (nextState,nextInput) =  oop
--}
 main :: IO()
 main = do 
             printf "Advent of Code 2021, Day 24:\n"
@@ -137,12 +142,13 @@ main = do
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_test
             printf "    read %d lines of input\n" (length vals2)
-            print vals1
-            let ins = map parseLine (map words vals1)
+            print vals2
+            let ins = map parseLine (map words vals2)
             print ins
-            let input = [1,3]
-  --          let result = run ins initial_state input
-
+            let input = [9]
+            let result = go ins (toDataList input) initial_state
+            printf "state: %s, w=%d x=%d y=%d z=%d \n" (show result) 
+                    (getState W result) (getState X result) (getState Y result) (getState Z result)
 {-      
             let answer1 = vals1
             printf "\n   Part 1    Solution: %d \n" answer1         
