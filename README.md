@@ -27,7 +27,7 @@
 | [Day 22: Reactor Reboot](https://adventofcode.com/2021/day/22)  | Cubial Ranges | _   | _ |
 | [Day 23: Amphipod](https://adventofcode.com/2021/day/23)  | Path Finding  | _   | _ |
 | [Day 24: Arithmetic Logic Unit](https://adventofcode.com/2021/day/24)  | Reverse Code Reasoning-Fuckery  | *  | * |
-| [](https://adventofcode.com/2021/day/25)  |  | _   | _ |
+| [Day 25: Sea Cucumber](https://adventofcode.com/2021/day/25)  |  | * | _ |
 
 
 Learning Haskell as I go, so pardon the ugly code and style.
