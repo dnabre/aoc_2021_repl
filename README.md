@@ -12,7 +12,7 @@
 | [Day 7: The Treachery of Whales](https://adventofcode.com/2021/day/7)   | Maths | *   | * |
 | [Day 8: Seven Segment Search](https://adventofcode.com/2021/day/8)  | Crypto | _   | _ |
 | [Day 9: Smoke Basin](https://adventofcode.com/2021/day/9)  | Image Processing | *  | * |
-| [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | _   | _ |
+| [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | *   | * |
 | [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  | Automata | _   | _ |
 | [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  | Graph Search | _   | _ |
 | [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
