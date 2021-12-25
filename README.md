@@ -23,10 +23,10 @@
 | [Day 18: Snailfish](https://adventofcode.com/2021/day/18)  | List Manipulation | _   | _ |
 | [Day 19: Beacon Scanner](https://adventofcode.com/2021/day/19)  | Combining 3D Puzzle Pieces | _   | _ |
 | [Day 20: Trench Map](https://adventofcode.com/2021/day/20)  | Image Convolution | _   | _ |
-| [](https://adventofcode.com/2021/day/21)  |  | _   | _ |
-| [](https://adventofcode.com/2021/day/22)  |  | _   | _ |
-| [](https://adventofcode.com/2021/day/23)  |  | _   | _ |
-| [](https://adventofcode.com/2021/day/24)  |  | _   | _ |
+| [Day 21: Dirac Dice](https://adventofcode.com/2021/day/21)  | Game Modelling  | _   | _ |
+| [Day 22: Reactor Reboot](https://adventofcode.com/2021/day/22)  | Cubial Ranges | _   | _ |
+| [Day 23: Amphipod](https://adventofcode.com/2021/day/23)  | Path Finding  | _   | _ |
+| [Day 24: Arithmetic Logic Unit](https://adventofcode.com/2021/day/24)  | Reverse Code Reasoning-Fuckery  | *  | * |
 | [](https://adventofcode.com/2021/day/25)  |  | _   | _ |
 
 
