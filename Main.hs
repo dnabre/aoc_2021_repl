@@ -1,16 +1,15 @@
-module Main where
+
 
 import Text.Printf
 import Data.List.Split
 import Data.List
-import Data.Maybe
 import qualified Data.Set as Set
 import qualified Data.Map as Map
 
--- Advent of Code 2021
--- Day 8
---  part 1 solution: 521
---  part 2 solution: 1016804
+--  Advent of Code 2021
+--  Day 8
+--      part 1 solution: 521
+--      part 2 solution: 1016804
 
 part_1_test::[Char]
 part_1_test = "day8/aoc_08_test_1.txt"
@@ -22,18 +21,20 @@ part_2_input::[Char]
 part_2_input = "day8/aoc_08_part_2.txt"
 
 part1::[[Char]]->Int
-part1 vals1 =  length $ concat tt
+part1 vals1 = length $ filter (\c->elem c to_count) outputs
     where
-        slines::[[[(Int,Digit)]]]
-        slines = map parseLineToSetList1 vals1
-        tt = map part1_filter slines
+        to_count = "1478"
+        outputs = concat (processLines vals1)
 
+  
+
+part2::[[Char]]->Int
 part2 vals2 = sum int_list
     where
         num_strings = processLines vals2
         int_list = map string2int num_strings
 
-            print nums
+           
 data Digit = D0 | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9
     deriving (Bounded, Enum, Eq, Ord, Read, Show)
 
@@ -213,39 +214,11 @@ main = do
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_2_input
             printf "    read %d lines of input\n" (length vals2)
-            -- 1,4,7,8
-            --print vals1
-            --let ln = head vals1 
-            --let st =  map segmentByNum $map stringToSymSet (words $ (splitOn " | " ln) !! 1)
             
-            --let slines = map parseLineToSetList1 vals2 
-           -- let slines2 = head $ map parseLineToSetList2 vals2
-            {-
-            let line_one = filter (\w->w /= "|") (words ( head vals2))
-            --print line_one
-            
-            let set_list = nub $ map Set.fromList line_one
-            
-            let s_map  = build_map set_list
-            
-            let c_line = (head vals2)
-            let line_set = map Set.fromList $ drop 11 (words c_line)
-            --let d_list = map (translateSegments s_map) line_set
-            let d_line = map (setToDigit s_map) line_set
-            
-            let fs = map (\l->map charFromDigit (decodeLine l)) vals2
-            
-            let nums = map string2int fs
-            mapM_ print nums
-            -}
-            
-
-            --let answer2 = sum nums
-            --print answer2
-        --    let answer1 = part1 vals1
-        --    printf "\n   Part 1    Solution: %d \n" answer1  
-            --let answer1 = part1 vals1
-            --printf "\n   Part 1    Solution: %d \n" answer1  
+            let answer1 = part1 vals1
+            printf "\n   Part 1    Solution: %d \n" answer1  
+            let answer2 = part2 vals2
+            printf "\n   Part 2    Solution: %d \n" answer2
 
 
             print "done"
