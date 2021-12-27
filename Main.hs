@@ -28,8 +28,12 @@ part1 vals1 =  length $ concat tt
         slines = map parseLineToSetList1 vals1
         tt = map part1_filter slines
 
-part2 x = undefined
+part2 vals2 = sum int_list
+    where
+        num_strings = processLines vals2
+        int_list = map string2int num_strings
 
+            print nums
 data Digit = D0 | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9
     deriving (Bounded, Enum, Eq, Ord, Read, Show)
 
@@ -198,7 +202,10 @@ setToDigit s_map ss = c
         Just c = Map.lookup ss s_map 
         Nothing = error $ "error setToDigit, on lookup " ++ (show ss)
 
+processLines::[[Char]]->[[Char]]
+processLines  = map (\l->map charFromDigit (decodeLine l)) 
 
+ 
 main :: IO()
 main = do
             printf "Advent of Code 2021, Day 8:\n"
@@ -213,7 +220,7 @@ main = do
             
             --let slines = map parseLineToSetList1 vals2 
            -- let slines2 = head $ map parseLineToSetList2 vals2
-            
+            {-
             let line_one = filter (\w->w /= "|") (words ( head vals2))
             --print line_one
             
@@ -230,8 +237,11 @@ main = do
             
             let nums = map string2int fs
             mapM_ print nums
-            let answer2 = sum nums
-            print answer2
+            -}
+            
+
+            --let answer2 = sum nums
+            --print answer2
         --    let answer1 = part1 vals1
         --    printf "\n   Part 1    Solution: %d \n" answer1  
             --let answer1 = part1 vals1
