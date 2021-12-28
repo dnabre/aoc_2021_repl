@@ -49,24 +49,6 @@ getLowPoints m_grid = low_points
         key_list = Map.keys m_grid
         low_points = filter (\p-> (getLowValue p m_grid) /= [] ) key_list
 
-initMapGrid :: [[Char]] -> Map.Map Point Int
-initMapGrid vals = Map.fromList (foldl (++) [] pgp)
-    where
-        pps = map (\l->map digitToInt l) vals
-        x_w = length (head vals)
-        y_w = length vals
-        g_p = gPoints x_w y_w
-        gpg = zip g_p pps
-        pgp = map (\(p,v)-> zip p v) gpg
-
-
-         
-gPoints:: Int->Int->[[Point]]
-gPoints x_w y_w = map (bline x_w) [1..y_w]
-    where
-        bline num_x y_value = [(Point x y_value) | x<-[1..num_x]]
-
-
 getStringVals :: FilePath -> IO [String]
 getStringVals path = do 
                         contents <- readFile path
