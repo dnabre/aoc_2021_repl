@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module Main where
+
 import System.Environment
 import System.Exit
 import Text.Printf
@@ -28,13 +28,17 @@ part_2_input = "day11/aoc_11_part_2.txt"
 
 data Point = Point Int Int deriving (Show,Eq,Ord)
 
+part1::[[Char]]->Int
 part1 vals =   r
     where
         (step100,r) =  steps m_grid 100
         m_grid = initMapGrid vals
 
-part2 x = undefined
-
+part2::[[Char]]->Int
+part2 vals2 = a
+    where
+        z@(a,b) = findStepsToSync m_grid (length (head vals2)) (length vals2)
+        m_grid = initMapGrid vals2
 
 initMapGrid :: [[Char]] -> Map.Map Point Int
 initMapGrid vals = Map.fromList (foldl (++) [] pgp)
@@ -108,7 +112,8 @@ printGrid m_grid = do
             mapM_ printf n_lines
 
 
-flash = Map.keys .  Map.filter (> 9)
+flash::Map.Map Point Int -> [Point]
+flash m = Map.keys ( Map.filter (> 9) m)
 
 incrementGrid::Map.Map Point Int->Map.Map Point Int
 incrementGrid = Map.map (\e->e+1)
@@ -134,7 +139,7 @@ doFlash' (p_map, flashed_already) = if (length flashing) == 0 then (n_map,flashe
       
 
 
-
+step::Map.Map Point Int->(Map.Map Point Int, Int)
 step  = doFlash . incrementGrid
 
 
@@ -144,7 +149,7 @@ steps el n = foldr sumStep (el, 0) [1..n]
         sumStep :: Int -> (Map.Map Point Int, Int) -> (Map.Map Point Int, Int)
         sumStep _ (el, acc) = (+) acc <$> step el
 
-
+findStepsToSync::Map.Map Point Int -> Int -> Int -> (Int, (Map.Map Point Int, Int))
 findStepsToSync m_map width height = (a,b)
     where
         allFlashed (_, (_, flashes)) = flashes == (width * height)
@@ -158,22 +163,14 @@ main = do
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals2)
-
-            printf "\n vals1 grid, width %d height %d\n" (length (head vals1)) (length vals1)
-            printf "vals2 grid, width %d height %d\n" (length (head vals2)) (length vals2)
-            
-            let answer1 = part1 vals1
-            print answer1
-
-            let m_grid = initMapGrid vals2
+        
          
-            printf "\n"
+         
+            let answer1 = part1 vals1
+            printf "\n   Part 1    Solution: %d \n" answer1         
 
-            let z@(a,b) = findStepsToSync m_grid (length (head vals2)) (length vals2)
-            print a
-            printf "\n\n"
-            print b
-            printf "\n"
+            let answer2 = part2 vals2
+            printf "\n   Part 2    Solution: %d \n" answer2
 
             printf "\n\n    done \n \n"
 

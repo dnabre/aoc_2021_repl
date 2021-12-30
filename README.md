@@ -13,7 +13,7 @@
 | [Day 8: Seven Segment Search](https://adventofcode.com/2021/day/8)  | Crypto | *   | * |
 | [Day 9: Smoke Basin](https://adventofcode.com/2021/day/9)  | Image Processing | *  | * |
 | [Day 10: Syntax Scoring](https://adventofcode.com/2021/day/10)  | Parsing | *   | * |
-| [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  | Automata | _   | _ |
+| [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  | Automata | *   | * |
 | [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  | Graph Search | _   | _ |
 | [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
 | [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | * |
