@@ -1,14 +1,7 @@
-{-# LANGUAGE MultiWayIf #-}
 
 
-import System.Environment
-import System.Exit
 import Text.Printf
-import Data.List.Split
-import Data.List
 import Data.Char
-import Data.Maybe
-import qualified Data.Set as Set
 import qualified Data.Map as Map
 
 -- Advent of Code 2021
@@ -31,13 +24,13 @@ data Point = Point Int Int deriving (Show,Eq,Ord)
 part1::[[Char]]->Int
 part1 vals =   r
     where
-        (step100,r) =  steps m_grid 100
+        (_,r) =  steps m_grid 100
         m_grid = initMapGrid vals
 
 part2::[[Char]]->Int
 part2 vals2 = a
     where
-        z@(a,b) = findStepsToSync m_grid (length (head vals2)) (length vals2)
+        (a,_) = findStepsToSync m_grid (length (head vals2)) (length vals2)
         m_grid = initMapGrid vals2
 
 initMapGrid :: [[Char]] -> Map.Map Point Int
@@ -49,20 +42,6 @@ initMapGrid vals = Map.fromList (foldl (++) [] pgp)
         g_p = gPoints x_w y_w
         gpg = zip g_p pps
         pgp = map (\(p,v)-> zip p v) gpg
-
-digitToChar::Int->Char
-digitToChar 0 = '0'
-digitToChar 1 = '1'
-digitToChar 2 = '2'
-digitToChar 3 = '3'
-digitToChar 4 = '4'
-digitToChar 5 = '5'
-digitToChar 6 = '6'
-digitToChar 7 = '7'
-digitToChar 8 = '8'
-digitToChar 9 = '9'
-digitToChar _ = 'x'
-
          
 gPoints:: Int->Int->[[Point]]
 gPoints x_w y_w = map (bline x_w) [1..y_w]
@@ -70,47 +49,15 @@ gPoints x_w y_w = map (bline x_w) [1..y_w]
         bline num_x y_value = [(Point x y_value) | x<-[1..num_x]]
 
 
-
-getIntVals :: FilePath -> IO [Int]
-getIntVals path = do 
-                    contents <- readFile path
-                    return (map (read::String->Int) (lines contents))
-
 getStringVals::FilePath -> IO [[Char]] 
 getStringVals path = do 
                         contents <- readFile path
                         return  (lines contents)
 
 
-
-addPoint::Point->(Int,Int)->Point 
-addPoint (Point x y) (dx,dy) = Point (x+dx) (y+dy)
-
 neighbors::Point->[Point]
 neighbors (Point x y) = [Point (x+x') (y+y') | x'<-[-1..1], y'<-[-1..1]]
         
-
-        
-empty_point_set::Set.Set Point
-empty_point_set = Set.empty
-
-pointToValue::Map.Map Point Int->Point->Int
-pointToValue grid point = my_val
-    where
-        Just my_val = Map.lookup point grid
-
-
-printGrid::Map.Map Point Int -> IO()
-printGrid m_grid = do
-            let y_coords = [1..10]
-            let first_line_p = [Point x y |x<-[1..10],y<-[1]]
-            let m_y_lines = map (\y-> map (\(Point a b)-> Point a y) first_line_p) y_coords
-            let pair_list = map (\k->Map.lookup k m_grid) first_line_p
-            let v_list = map digitToChar $  catMaybes pair_list
-            let ypair_list = map (\l->catMaybes $ map (\k->Map.lookup k m_grid) l) m_y_lines
-            let n_lines = map (\l-> (map digitToChar l) ++ "\n" )  ypair_list
-            mapM_ printf n_lines
-
 
 flash::Map.Map Point Int -> [Point]
 flash m = Map.keys ( Map.filter (> 9) m)
@@ -118,18 +65,13 @@ flash m = Map.keys ( Map.filter (> 9) m)
 incrementGrid::Map.Map Point Int->Map.Map Point Int
 incrementGrid = Map.map (\e->e+1)
 
-
-
-incrementJust::Map.Map Point Int->[Point]->Int->Map.Map Point Int
-incrementJust m_map [] n = m_map
-incrementJust m_map (x:xs) n = incrementJust (Map.adjust (\x->x+n) x m_map) xs n
-
-
 doFlash::Map.Map Point Int -> (Map.Map Point Int, Int)
 doFlash m_map = length <$> doFlash' (m_map,[])
 
 doFlash'::(Map.Map Point Int, [Point])->(Map.Map Point Int, [Point])
-doFlash' (p_map, flashed_already) = if (length flashing) == 0 then (n_map,flashed_already) else doFlash' (n_map ,(flashed_already ++ flashing))
+doFlash' (p_map, flashed_already) = if (length flashing) == 0 
+                                        then (n_map,flashed_already) 
+                                        else doFlash' (n_map ,(flashed_already ++ flashing))
     where
         flashing = flash p_map
         all_next_toflash  = concatMap neighbors flashing 
@@ -147,16 +89,16 @@ steps :: Map.Map Point Int -> Int -> (Map.Map Point Int, Int)
 steps el n = foldr sumStep (el, 0) [1..n]
     where
         sumStep :: Int -> (Map.Map Point Int, Int) -> (Map.Map Point Int, Int)
-        sumStep _ (el, acc) = (+) acc <$> step el
+        sumStep _ (tel, acc) = (+) acc <$> step tel
 
 findStepsToSync::Map.Map Point Int -> Int -> Int -> (Int, (Map.Map Point Int, Int))
 findStepsToSync m_map width height = (a,b)
     where
         allFlashed (_, (_, flashes)) = flashes == (width * height)
-        enumSteps (steps, (m_map, _)) = (steps +1, step m_map)
+        enumSteps (steps', (n_map, _)) = (steps' +1, step n_map)
         (a,b) = until allFlashed enumSteps (0, (m_map, 0))
 
-
+main::IO ()
 main = do 
             printf "Advent of Code 2021, Day 10:\n"
             vals1 <- getStringVals part_1_input
