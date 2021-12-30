@@ -13,8 +13,8 @@ import qualified Data.Map as Map
 
 -- Advent of Code 2021
 -- Day 11
---  part 1 solution: 
---  part 2 solution: 
+--  part 1 solution: 1755
+--  part 2 solution: 212
 
 part_1_test::[Char]
 part_1_test = "day11/aoc_11_test_1.txt"
@@ -28,7 +28,11 @@ part_2_input = "day11/aoc_11_part_2.txt"
 
 data Point = Point Int Int deriving (Show,Eq,Ord)
 
-part1 x = undefined
+part1 vals =   r
+    where
+        (step100,r) =  steps m_grid 100
+        m_grid = initMapGrid vals
+
 part2 x = undefined
 
 
@@ -42,7 +46,7 @@ initMapGrid vals = Map.fromList (foldl (++) [] pgp)
         gpg = zip g_p pps
         pgp = map (\(p,v)-> zip p v) gpg
 
-
+digitToChar::Int->Char
 digitToChar 0 = '0'
 digitToChar 1 = '1'
 digitToChar 2 = '2'
@@ -78,19 +82,9 @@ getStringVals path = do
 addPoint::Point->(Int,Int)->Point 
 addPoint (Point x y) (dx,dy) = Point (x+dx) (y+dy)
 
-getNeighborPoints::Point->Map.Map Point Int ->[Point]
-getNeighborPoints p m_grid  = f_coords
-    where
-        coords = map (addPoint p) [(0,1), (0,-1) , (-1,0), (1,0)]
-        f_coords = filter (\np-> Map.member np m_grid) coords
-
-getNeighbors::Point->Map.Map Point Int->[Int]
-getNeighbors p m_grid  = m_values
-    where
-        coords = map (addPoint p) [(0,1), (0,-1) , (-1,0), (1,0)]
-        f_coords = filter (\np-> Map.member np m_grid) coords
-        m_values = catMaybes $ map (\np->Map.lookup np m_grid) f_coords
-
+neighbors::Point->[Point]
+neighbors (Point x y) = [Point (x+x') (y+y') | x'<-[-1..1], y'<-[-1..1]]
+        
 
         
 empty_point_set::Set.Set Point
@@ -113,29 +107,73 @@ printGrid m_grid = do
             let n_lines = map (\l-> (map digitToChar l) ++ "\n" )  ypair_list
             mapM_ printf n_lines
 
-        {-
-            to do step, 
-                increment all
-                main two sets, alreadyFlashed and newFlash
-                repeat until newFlash is empty
-                then update all flashed to 0
 
-        -}
+flash = Map.keys .  Map.filter (> 9)
+
+incrementGrid::Map.Map Point Int->Map.Map Point Int
+incrementGrid = Map.map (\e->e+1)
+
+
+
+incrementJust::Map.Map Point Int->[Point]->Int->Map.Map Point Int
+incrementJust m_map [] n = m_map
+incrementJust m_map (x:xs) n = incrementJust (Map.adjust (\x->x+n) x m_map) xs n
+
+
+doFlash::Map.Map Point Int -> (Map.Map Point Int, Int)
+doFlash m_map = length <$> doFlash' (m_map,[])
+
+doFlash'::(Map.Map Point Int, [Point])->(Map.Map Point Int, [Point])
+doFlash' (p_map, flashed_already) = if (length flashing) == 0 then (n_map,flashed_already) else doFlash' (n_map ,(flashed_already ++ flashing))
+    where
+        flashing = flash p_map
+        all_next_toflash  = concatMap neighbors flashing 
+        flashed = foldr (Map.adjust (+1)) p_map all_next_toflash
+        n_map = foldr (Map.adjust (const 0)) flashed (flashed_already ++ flashing)
+
+      
+
+
+
+step  = doFlash . incrementGrid
+
+
+steps :: Map.Map Point Int -> Int -> (Map.Map Point Int, Int)
+steps el n = foldr sumStep (el, 0) [1..n]
+    where
+        sumStep :: Int -> (Map.Map Point Int, Int) -> (Map.Map Point Int, Int)
+        sumStep _ (el, acc) = (+) acc <$> step el
+
+
+findStepsToSync m_map width height = (a,b)
+    where
+        allFlashed (_, (_, flashes)) = flashes == (width * height)
+        enumSteps (steps, (m_map, _)) = (steps +1, step m_map)
+        (a,b) = until allFlashed enumSteps (0, (m_map, 0))
+
+
 main = do 
             printf "Advent of Code 2021, Day 10:\n"
-            vals1 <- getStringVals part_1_test
+            vals1 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals1)
             vals2 <- getStringVals part_1_input
             printf "    read %d lines of input\n" (length vals2)
 
-            let m_grid = initMapGrid vals1
+            printf "\n vals1 grid, width %d height %d\n" (length (head vals1)) (length vals1)
+            printf "vals2 grid, width %d height %d\n" (length (head vals2)) (length vals2)
+            
+            let answer1 = part1 vals1
+            print answer1
+
+            let m_grid = initMapGrid vals2
          
             printf "\n"
-            printGrid m_grid
-            
-            
-            
 
+            let z@(a,b) = findStepsToSync m_grid (length (head vals2)) (length vals2)
+            print a
+            printf "\n\n"
+            print b
+            printf "\n"
 
             printf "\n\n    done \n \n"
 
