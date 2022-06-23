@@ -16,7 +16,7 @@
 | [Day 11: Dumbo Octopus](https://adventofcode.com/2021/day/11)  | Automata | *   | * |
 | [Day 12: Passage Pathing](https://adventofcode.com/2021/day/12)  | Graph Search | _   | _ |
 | [Day 13: Transparent Origami](https://adventofcode.com/2021/day/13)  | Folding Points | *   | * |
-| [Day 14: Extended Polymerization](https://adventofcode.com/2021/day/)  | Strings/Optimization | *   | * |
+| [Day 14: Extended Polymerization](https://adventofcode.com/2021/day14/)  | Strings/Optimization | *   | * |
 | [Day 15: Chiton ](https://adventofcode.com/2021/day/15)  | Shortest Path | _   | _ |
 | [Day 16: Packet Decoder](https://adventofcode.com/2021/day/16)  |Bitwise-Parsing  | _   | _ |
 | [Day 17: Trick Shot](https://adventofcode.com/2021/day/17)  | Ballistic Calcution | *   | _ |
